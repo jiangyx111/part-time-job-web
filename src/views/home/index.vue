@@ -1,28 +1,9 @@
 <template>
-  <h1>首页</h1>
+  <div class="love">首页</div>
 </template>
 <script>
 export default {
-  name: 'LoginIndex',
-  data () {
-    return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      }
-    }
-  },
-  methods: {
-    onSubmit () {
-      console.log('submit!')
-    }
-  }
+  name: 'HomeIndex'
 }
 </script>
 <style lang="scss" scoped></style>
