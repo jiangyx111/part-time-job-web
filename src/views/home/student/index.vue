@@ -93,6 +93,7 @@
 </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: 'HomeIndex',
   data () {
@@ -107,6 +108,41 @@ export default {
   methods: {
     goBack () {
       this.$router.push('/')
+    },
+    fetchData () {
+      const url = 'http://192.168.42.114:8866/ptjs/job/page'
+      axios.get(url, {
+        params: {
+          unit: this.formInline.unit, // 根据下拉选择框的值设置查询条件
+          region: this.formInline.region
+        }
+      })
+        .then(response => {
+          this.tableData = response.data.map(item => ({
+            id: item.id,
+            positionTitle: item.positionTitle,
+            head: item.head,
+            positionNature: item.positionNature,
+            positionType: item.positionType,
+            requireNumber: item.requireNumber,
+            applicantNumber: item.applicantNumber,
+            jobNumber: item.jobNumber,
+            academicYear: item.academicYear,
+            unit: item.unit
+          }))
+        })
+        .catch(error => {
+          console.error('请求数据失败:', error)
+        })
+    },
+    onSubmit () {
+      this.fetchData() // 调用 fetchData 方法获取数据
+    },
+    mounted () {
+      this.fetchData()
+    },
+    created () {
+      this.fetchData()
     }
   }
 }

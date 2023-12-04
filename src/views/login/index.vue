@@ -74,7 +74,7 @@ export default {
         status: status
       }
       if (status === '1') {
-        axios.post('http://localhost:8866/ptjs/user/login', requestData)
+        axios.post('http://192.168.42.114:8866/ptjs/user/login', requestData)
           .then(response => {
           // 请求成功的处理逻辑
             console.log('登录成功')
@@ -91,7 +91,7 @@ export default {
           // 在这里可以给用户显示错误提示信息
           })
       } else if (status === '2') {
-        axios.post('http://localhost:8866/ptjs/user/login', requestData)
+        axios.post('http://192.168.42.114:8866/ptjs/user/login', requestData)
           .then(response => {
             // 请求成功的处理逻辑
             console.log('登录成功')
