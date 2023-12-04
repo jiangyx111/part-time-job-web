@@ -1,57 +1,31 @@
 <template>
   <div class="home">
     <div class="menu">
-      <el-row class="tac">
-        <el-col :span="12">
-          <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
-            background-color="#545c64"
-            text-color="#fff"
-            active-text-color="#ffd04b">
-            <el-submenu index="1">
-              <template slot="title">
-                <i class="el-icon-location"></i>
-                <span>导航一</span>
-              </template>
-              <el-menu-item-group>
-                <template slot="title">分组一</template>
-                <el-menu-item index="1-1">选项1</el-menu-item>
-                <el-menu-item index="1-2">选项2</el-menu-item>
-              </el-menu-item-group>
-              <el-menu-item-group title="分组2">
-                <el-menu-item index="1-3">选项3</el-menu-item>
-              </el-menu-item-group>
-              <el-submenu index="1-4">
-                <template slot="title">选项4</template>
-                <el-menu-item index="1-4-1">选项1</el-menu-item>
-              </el-submenu>
-            </el-submenu>
-            <el-menu-item index="2">
-              <i class="el-icon-menu"></i>
-              <span slot="title">导航二</span>
-            </el-menu-item>
-            <el-menu-item index="3" disabled>
-              <i class="el-icon-document"></i>
-              <span slot="title">导航三</span>
-            </el-menu-item>
-            <el-menu-item index="4">
-              <i class="el-icon-setting"></i>
-              <span slot="title">导航四</span>
-            </el-menu-item>
-          </el-menu>
-        </el-col>
-      </el-row>
+      <el-tabs :tab-position="tabPosition" style="height: 200px;">
+      <el-tab-pane label="全部岗位">全部岗位</el-tab-pane>
+      <el-tab-pane label="剩余岗位">剩余岗位</el-tab-pane>
+      <el-tab-pane label="角色管理">角色管理</el-tab-pane>
+      </el-tabs>
     </div>
     <div class="selectandtable">
+    <div class="header">
+      <div class="header-content">
+        <div class="content">
+          勤工助学管理系统
+        </div>
+        <el-button type="primary" class="back el-button--small" @click="goBack">退出登录</el-button>
+      </div>
+    </div>
     <div class="select">
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="单位">
-        <el-select v-model="formInline.user" placeholder="单位">
-          <el-option label="区域一" value="shanghai"></el-option>
-          <el-option label="区域二" value="beijing"></el-option>
+        <el-select v-model="unit" placeholder="单位">
+          <el-option
+          v-for="item in unit"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+          </el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="岗位名称">
@@ -65,7 +39,7 @@
     <div class="table">
     <el-table
     :data="tableData"
-    height="250"
+    height="400"
     border
     style="width: 100%">
     <el-table-column
@@ -75,35 +49,43 @@
     </el-table-column>
     <el-table-column
       prop="head"
-      label="负责人">
+      label="负责人"
+      width="100">
     </el-table-column>
     <el-table-column
       prop="positionNature"
-      label="岗位性质">
+      label="岗位性质"
+      width="100">
     </el-table-column>
     <el-table-column
       prop="positionType"
-      label="岗位类型">
+      label="岗位类型"
+      width="100">
     </el-table-column>
     <el-table-column
       prop="requireNumber"
-      label="需要人数">
+      label="需要人数"
+      width="100">
     </el-table-column>
     <el-table-column
       prop="applicantNumber"
-      label="申请人数">
+      label="申请人数"
+      width="100">
     </el-table-column>
     <el-table-column
       prop="jobNumber"
-      label="在岗人数">
+      label="在岗人数"
+      width="100">
     </el-table-column>
     <el-table-column
       prop="academicYear"
-      label="学年">
+      label="学年"
+      width="100">
     </el-table-column>
     <el-table-column
       prop="unit"
-      label="单位">
+      label="单位"
+      width="100">
     </el-table-column>
   </el-table>
   </div>
@@ -115,6 +97,7 @@ export default {
   name: 'HomeIndex',
   data () {
     return {
+      tabPosition: 'left',
       formInline: {
         user: '',
         region: ''
@@ -122,8 +105,8 @@ export default {
     }
   },
   methods: {
-    onSubmit () {
-      console.log('submit!')
+    goBack () {
+      this.$router.push('/')
     }
   }
 }
@@ -131,9 +114,18 @@ export default {
 <style lang="scss" scoped>
 .home {
   display: flex;
+  height: 100vh;
+  align-items: flex-start;
+  background-image: url('./login.jpg'); /* 设置背景图 */
+  background-size: cover;
+  background-position: center;
+  position: relative; /* 设置为相对定位 */
 }
 .menu {
-  width: 200px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px; /* 向下调整位置 */
+  font-weight: bold;
 }
 .select {
   margin-bottom: 20pxS;
@@ -141,5 +133,23 @@ export default {
 .selectandtable {
   flex: 1;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.back {
+  margin-bottom: 20px;
+}
+.header-content {
+  display: flex;
+  align-items: center;
+  flex-direction: row; /* 将子元素水平排列 */
+  justify-content: space-between; /* 按钮最右显示 */
+}
+.content {
+  margin-left: 350px; /* 调整文字与按钮之间的间距 */
+  color: black;
+  font-weight: bold; /* 加粗文字 */
+  font-size: 25px; /* 放大文字 */
+  margin-top: -20px;
 }
 </style>
