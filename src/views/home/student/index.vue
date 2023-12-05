@@ -19,7 +19,7 @@
     <div class="select">
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
       <el-form-item label="单位">
-        <el-select v-model="unit" placeholder="单位">
+        <el-select v-model="formInline.unit" placeholder="单位">
           <el-option
           v-for="item in unit"
           :key="item.value"
@@ -100,9 +100,15 @@ export default {
     return {
       tabPosition: 'left',
       formInline: {
-        user: '',
+        unit: '',
         region: ''
-      }
+      },
+      unit: [
+        { value: 'kg', label: '千克' },
+        { value: 'g', label: '克' },
+        { value: 'lb', label: '磅' }
+      ],
+      tableData: []
     }
   },
   methods: {
@@ -110,7 +116,7 @@ export default {
       this.$router.push('/')
     },
     fetchData () {
-      const url = 'http://localhost/ptjs/job/page'
+      const url = 'http://localhost:8866/ptjs/job/page'
       axios.get(url, {
         params: {
           unit: this.formInline.unit, // 根据下拉选择框的值设置查询条件
@@ -137,12 +143,6 @@ export default {
     },
     onSubmit () {
       this.fetchData() // 调用 fetchData 方法获取数据
-    },
-    mounted () {
-      this.fetchData()
-    },
-    created () {
-      this.fetchData()
     }
   }
 }
