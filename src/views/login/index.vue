@@ -74,16 +74,20 @@ export default {
         status: status
       }
       if (status === '1') {
-        axios.post('http://192.168.42.114:8866/ptjs/user/login', requestData)
+        axios.post('http://localhost:8866/ptjs/user/login', requestData)
           .then(response => {
-          // 请求成功的处理逻辑
-            console.log('登录成功')
-            console.log(response.data)
-            console.log(response.data.token)
-            store.commit('setToken', response.data)
-            store.commit('setUsername', requestData.username)
-            // 执行登录成功后的操作，如跳转到其他页面
-            this.$router.push('/student/home')
+            console.log(response.data.code)
+            if (response.data.code === 0) {
+              // 请求成功的处理逻辑
+              console.log('登录成功')
+              // 执行登录成功后的操作，如跳转到其他页面
+              store.commit('setToken', response.data)
+              store.commit('setUsername', requestData.username)
+              Message.success(response.data.msg)
+              this.$router.push('/student/home')
+            } else {
+              Message.error(response.data.msg)
+            }
           })
           .catch(error => {
           // 请求失败的处理逻辑
@@ -91,13 +95,17 @@ export default {
           // 在这里可以给用户显示错误提示信息
           })
       } else if (status === '2') {
-        axios.post('http://192.168.42.114:8866/ptjs/user/login', requestData)
+        axios.post('http://localhost:8866/ptjs/user/login', requestData)
           .then(response => {
-            // 请求成功的处理逻辑
-            console.log('登录成功')
-            // 执行登录成功后的操作，如跳转到其他页面
-            Message.success('登陆成功')
-            this.$router.push('/teacher/home')
+            if (response.data.code === 0) {
+              // 请求成功的处理逻辑
+              console.log('登录成功')
+              // 执行登录成功后的操作，如跳转到其他页面
+              Message.success(response.data.msg)
+              this.$router.push('/teacher/home')
+            } else {
+              Message.error(response.data.msg)
+            }
           })
           .catch(error => {
           // 请求失败的处理逻辑

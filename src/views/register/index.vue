@@ -69,11 +69,8 @@ export default {
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          {
-            pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-            message: '必须由字母和数字组成且长度大于等于6位',
-            trigger: 'blur'
-          }
+          { pattern: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/, message: '必须由字母和数字组成', trigger: 'blur' },
+          { min: 6, message: '长度不能小于6位', trigger: 'blur' }
         ]
       }
     }
@@ -94,10 +91,16 @@ export default {
             .post('http://localhost:8866/ptjs/user/register', requestData)
             .then(response => {
               // 请求成功的处理逻辑
-              console.log('注册成功')
-              // 执行登录成功后的操作，如跳转到其他页面
-              this.$router.push('/')
-              Message.success('注册成功')
+              if (response.data.code === 0) {
+                console.log('注册成功')
+                // 执行登录成功后的操作，如跳转到其他页面
+                this.$router.push('/')
+                Message.success(response.data.msg)
+              } else {
+                // 请求失败的处理逻辑
+                // 在这里可以给用户显示错误提示信息
+                Message.error(response.data.msg)
+              }
             })
             .catch(error => {
               // 请求失败的处理逻辑

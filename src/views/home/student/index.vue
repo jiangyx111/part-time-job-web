@@ -110,7 +110,7 @@ export default {
       this.$router.push('/')
     },
     fetchData () {
-      const url = 'http://192.168.42.114:8866/ptjs/job/page'
+      const url = 'http://localhost/ptjs/job/page'
       axios.get(url, {
         params: {
           unit: this.formInline.unit, // 根据下拉选择框的值设置查询条件
