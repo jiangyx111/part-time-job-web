@@ -16,7 +16,7 @@
               show-password
               ></el-input>          </el-form-item>
           <el-form-item label="身份">
-            <el-select v-model="form.status" placeholder="请选择">
+            <el-select v-model="form.identity" placeholder="请选择">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -59,7 +59,7 @@ export default {
       form: {
         name: '',
         password: '',
-        status: ''
+        identity: ''
       },
       rules: {
         name: [
@@ -78,12 +78,12 @@ export default {
   methods: {
     onSubmit () {
       // 获取用户输入的账号和密码
-      const { name, password, status } = this.form
+      const { name, password, identity } = this.form
       // 构造请求体数据
       const requestData = {
         username: name,
         password: password,
-        status: status
+        identity: identity
       }
       this.$refs.form.validate(valid => {
         if (valid) {
