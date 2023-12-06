@@ -17,7 +17,7 @@
               ></el-input>
         </el-form-item>
       <el-form-item label="身份">
-        <el-select v-model="form.status" placeholder="请选择">
+        <el-select v-model="form.identity" placeholder="请选择">
            <el-option
             v-for="item in options"
            :key="item.value"
@@ -57,7 +57,7 @@ export default {
       form: {
         name: '',
         password: '',
-        status: ''
+        identity: ''
       },
       token: null,
       passwordVisible: false
@@ -66,14 +66,14 @@ export default {
   methods: {
     onSubmit () {
       // 获取用户输入的账号和密码
-      const { username, password, status } = this.form
+      const { username, password, identity } = this.form
       // 构造请求体数据
       const requestData = {
         username: username,
         password: password,
-        status: status
+        identity: identity
       }
-      if (status === '1') {
+      if (identity === '1') {
         axios.post('http://localhost:8866/ptjs/user/login', requestData)
           .then(response => {
             console.log(response.data.code)
@@ -94,7 +94,7 @@ export default {
             console.log('登录失败:', error)
           // 在这里可以给用户显示错误提示信息
           })
-      } else if (status === '2') {
+      } else if (identity === '2') {
         axios.post('http://localhost:8866/ptjs/user/login', requestData)
           .then(response => {
             if (response.data.code === 0) {
