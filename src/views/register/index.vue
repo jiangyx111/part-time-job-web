@@ -5,8 +5,11 @@
       <div class="login">
         <el-form label-position="top" ref="form" :model="form" :rules="rules" label-width="80px">
           <h1>勤工助学管理系统</h1>
-          <el-form-item label="账号" prop="name">
+          <el-form-item label="姓名" prop="name">
             <el-input v-model="form.name"></el-input>
+          </el-form-item>
+          <el-form-item label="账号" prop="username">
+            <el-input v-model="form.username"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input
@@ -43,7 +46,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 
 export default {
-  name: 'LoginIndex',
+  username: 'LoginIndex',
   data () {
     return {
       options: [
@@ -58,11 +61,12 @@ export default {
       ],
       form: {
         name: '',
+        username: '',
         password: '',
         identity: ''
       },
       rules: {
-        name: [
+        username: [
           { required: true, message: '请输入账号', trigger: 'blur' },
           { pattern: /^[A-Za-z]/, message: '首字符必须是字母', trigger: 'blur' },
           { min: 6, message: '长度不能小于6位', trigger: 'blur' }
@@ -78,10 +82,11 @@ export default {
   methods: {
     onSubmit () {
       // 获取用户输入的账号和密码
-      const { name, password, identity } = this.form
+      const { name, username, password, identity } = this.form
       // 构造请求体数据
       const requestData = {
-        username: name,
+        name: name,
+        username: username,
         password: password,
         identity: identity
       }

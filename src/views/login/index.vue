@@ -55,7 +55,7 @@ export default {
         label: '教师'
       }],
       form: {
-        name: '',
+        username: '',
         password: '',
         identity: ''
       },
