@@ -11,7 +11,7 @@
   </div>
   <el-breadcrumb separator="/" style="padding-left: 10px;">
   <el-breadcrumb-item></el-breadcrumb-item>
-  <el-breadcrumb-item>学生-岗位列表</el-breadcrumb-item>
+  <el-breadcrumb-item>学生-申请列表</el-breadcrumb-item>
   </el-breadcrumb>
   <div class="right-align">
     <el-button type="text" @click="handlePhoneIconClick">
@@ -33,35 +33,14 @@
       @close="handleClose">
         <el-menu-item-group>
           <template slot="页面汇总"></template>
-          <el-menu-item index="1-1">岗位列表</el-menu-item>
-          <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
+          <el-menu-item index="1-1" @click="goTotal">岗位列表</el-menu-item>
+          <el-menu-item index="1-2" >申请列表</el-menu-item>
         </el-menu-item-group>
     </el-menu>
     </div>
   </el-aside>
     <el-main>
-      <div class="home">
-    <div class="selectandtable">
-    <div class="select">
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="单位">
-        <el-select v-model="formInline.unit" placeholder="单位">
-          <el-option
-          v-for="item in formInline.unitOptions"
-          :key="item"
-          :label="item"
-          :value="item">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="岗位名称">
-      <el-input v-model="formInline.positionTitle" placeholder="岗位名称"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
-      </el-form-item>
-    </el-form>
-
+      <el-button type="primary" @click="goTotal">申请</el-button>
 <!-- 表格 -->
     <el-table
       ref="multipleTable"
@@ -77,34 +56,24 @@
         <template slot-scope="{ row }">{{ row.positionTitle }}</template>
       </el-table-column>
       <el-table-column
-        prop="head"
-        label="负责人">
-        <template slot-scope="{ row }">{{ row.head }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="positionNature"
-        label="岗位性质">
-        <template slot-scope="{ row }">{{ row.positionNature }}</template>
-      </el-table-column>
-      <el-table-column
         prop="positionType"
         label="岗位类型">
         <template slot-scope="{ row }">{{ row.positionType }}</template>
       </el-table-column>
       <el-table-column
-        prop="requireNumber"
-        label="需要人数">
-        <template slot-scope="{ row }">{{ row.requireNumber }}</template>
+        prop="startWorkDate"
+        label="开始时间">
+        <template slot-scope="{ row }">{{ row.startWorkDate }}</template>
       </el-table-column>
       <el-table-column
-        prop="applicantNumber"
-        label="申请人数">
-        <template slot-scope="{ row }">{{ row.applicantNumber }}</template>
+        prop="bankCardNumber"
+        label="银行卡号">
+        <template slot-scope="{ row }">{{ row.bankCardNumber }}</template>
       </el-table-column>
       <el-table-column
-        prop="jobNumber"
-        label="在岗人数">
-        <template slot-scope="{ row }">{{ row.jobNumber }}</template>
+        prop="phone"
+        label="联系电话">
+        <template slot-scope="{ row }">{{ row.phone }}</template>
       </el-table-column>
       <el-table-column
         prop="academicYear"
@@ -113,7 +82,12 @@
       </el-table-column>
       <el-table-column
         prop="unit"
-        label="单位">
+        label="在岗状态">
+        <template slot-scope="{ row }">{{ row.unit }}</template>
+      </el-table-column>
+      <el-table-column
+        prop="unit"
+        label="审核状态">
         <template slot-scope="{ row }">{{ row.unit }}</template>
       </el-table-column>
       <el-table-column
@@ -135,9 +109,6 @@
       :total="totalCount">
     </el-pagination>
     </div>
-  </div>
-</div>
-</div>
     </el-main>
   </el-container>
 </el-container>
@@ -147,7 +118,6 @@ import axios from 'axios'
 export default {
   created () {
     this.fetchData()
-    this.fetchUnit()
   },
   name: 'HomeIndex',
   data () {
@@ -162,12 +132,10 @@ export default {
       },
       id: '',
       positionTitle: '',
-      head: '',
-      positionNature: '',
       positionType: '',
-      requireNumber: '',
-      applicantNumber: '',
-      jobNumber: '',
+      startWorkDate: '',
+      bankCardNumber: '',
+      phone: '',
       academicYear: '',
       unit: '',
       currentPage: '',
@@ -180,12 +148,11 @@ export default {
     goBack () {
       this.$router.push('/')
     },
-    goApply () {
-      this.$router.push('/student/apply')
+    goTotal () {
+      this.$router.push('/student/home')
     },
     handlePhoneIconClick () {
       const h = this.$createElement
-
       this.$notify({
         title: '客服联系方式',
         message: h('div', { style: 'color: teal' }, [
@@ -199,30 +166,15 @@ export default {
     },
     async fetchData () {
       try {
-        const response = await axios.get('http://localhost:8866/ptjs/job/page', {
+        const response = await axios.get('http://localhost:8866/ptjs/job/apply', {
           params: {
             pageNumber: this.pageNumber,
-            pageSize: this.pageSize,
-            name: this.name, // 姓名查询条件
-            unit: this.formInline.unit, // 根据下拉选择框的值设置查询条件
-            positionTitle: this.formInline.positionTitle
+            pageSize: this.pageSize
           }
         })
         console.log(response.data)
         this.data = response.data.data
         this.totalCount = response.data.totalCount
-      } catch (error) {
-        console.error(error)
-      }
-    },
-    async fetchUnit () {
-      try {
-        // 发送请求获取下拉框选项数据
-        const response = await axios.get('http://localhost:8866/ptjs/job/unit')
-        console.log(response.data.data)
-        this.formInline.unitOptions = Array.from(new Set(response.data.data))
-        console.log(this.formInline.unitOptions)
-        // 其他代码...
       } catch (error) {
         console.error(error)
       }

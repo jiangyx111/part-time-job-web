@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import StudentHome from '@/views/home/student/index'
+import StudentApply from '@/views/apply/student/index'
 import Login from '@/views/login/index'
 import Register from '@/views/register/index'
 
@@ -26,6 +27,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/student/apply',
+    name: 'StudentApply',
+    component: StudentApply
   }
 ]
 
