@@ -183,6 +183,9 @@ export default {
     goApply () {
       this.$router.push('/student/apply')
     },
+    showDetail (row) {
+      this.$router.push('/student/detail')
+    },
     handlePhoneIconClick () {
       const h = this.$createElement
 

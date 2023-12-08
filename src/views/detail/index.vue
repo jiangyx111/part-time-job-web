@@ -131,7 +131,7 @@ export default {
   },
   methods: {
     goBack () {
-      this.$router.push('/student/apply')
+      this.$router.push('/student/home')
     },
     async fetchData () {
       try {

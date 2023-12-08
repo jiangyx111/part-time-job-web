@@ -153,7 +153,7 @@ export default {
       this.$router.push('/')
     },
     goTotal () {
-      this.$router.push('/student/detail')
+      this.$router.push('/student/home')
     },
     handlePhoneIconClick () {
       const h = this.$createElement
