@@ -83,12 +83,15 @@
       <el-table-column
         prop="unit"
         label="在岗状态">
-        <template slot-scope="{ row }">{{ row.unit }}</template>
+        <template slot-scope="{ row }">{{ row.onDutyStatus }}</template>
       </el-table-column>
       <el-table-column
         prop="unit"
         label="审核状态">
-        <template slot-scope="{ row }">{{ row.unit }}</template>
+<!--        <template slot-scope="{ row }">{{ row.reviewStatus }}</template>-->
+        <template slot-scope="{ row }">
+          <span class="red-text">{{ row.reviewStatus }}</span>
+        </template>
       </el-table-column>
       <el-table-column
         label="详情">
@@ -137,7 +140,8 @@ export default {
       bankCardNumber: '',
       phone: '',
       academicYear: '',
-      unit: '',
+      onDutyStatus: '',
+      reviewStatus: '',
       currentPage: '',
       pageNumber: 1,
       pageSize: 5,
@@ -149,7 +153,7 @@ export default {
       this.$router.push('/')
     },
     goTotal () {
-      this.$router.push('/student/home')
+      this.$router.push('/student/detail')
     },
     handlePhoneIconClick () {
       const h = this.$createElement
@@ -202,6 +206,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.red-text{
+  color: red;
+}
 .home {
   display: flex;
   height: 100vh;
