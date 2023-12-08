@@ -4,6 +4,7 @@ import StudentHome from '@/views/home/student/index'
 import StudentApply from '@/views/apply/student/index'
 import Login from '@/views/login/index'
 import Register from '@/views/register/index'
+import Detail from '@/views/detail/index'
 
 Vue.use(VueRouter)
 
@@ -32,6 +33,11 @@ const routes = [
     path: '/student/apply',
     name: 'StudentApply',
     component: StudentApply
+  },
+  {
+    path: '/student/detail',
+    name: 'Detail',
+    component: Detail
   }
 ]
 
