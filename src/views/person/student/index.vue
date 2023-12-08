@@ -11,7 +11,7 @@
   </div>
   <el-breadcrumb separator="/" style="padding-left: 10px;">
   <el-breadcrumb-item></el-breadcrumb-item>
-  <el-breadcrumb-item>学生-申请列表</el-breadcrumb-item>
+  <el-breadcrumb-item>学生-个人中心</el-breadcrumb-item>
   </el-breadcrumb>
   <div class="right-align">
     <el-button type="text" @click="handlePhoneIconClick">
@@ -34,86 +34,41 @@
         <el-menu-item-group>
           <template slot="页面汇总"></template>
           <el-menu-item index="1-1" @click="goTotal">岗位列表</el-menu-item>
-          <el-menu-item index="1-2" >申请列表</el-menu-item>
-          <el-menu-item index="1-3" @click="goPerson">个人中心</el-menu-item>
+          <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
+          <el-menu-item index="1-3" >个人中心</el-menu-item>
 
         </el-menu-item-group>
     </el-menu>
     </div>
   </el-aside>
     <el-main>
-      <el-button type="primary" @click="goTotal">申请</el-button>
-<!-- 表格 -->
-    <el-table
-      ref="multipleTable"
-      :data="data.list"
-      tooltip-effect="dark"
-      stripe="true"
-
-      style="width: 100%"
-      @selection-change="handleSelectionChange">
-      <el-table-column
-        prop="positionTitle"
-        label="岗位名称">
-        <template slot-scope="{ row }">{{ row.positionTitle }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="positionType"
-        label="岗位类型">
-        <template slot-scope="{ row }">{{ row.positionType }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="startWorkDate"
-        label="开始时间">
-        <template slot-scope="{ row }">{{ row.startWorkDate }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="bankCardNumber"
-        label="银行卡号">
-        <template slot-scope="{ row }">{{ row.bankCardNumber }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="phone"
-        label="联系电话">
-        <template slot-scope="{ row }">{{ row.phone }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="academicYear"
-        label="学年">
-        <template slot-scope="{ row }">{{ row.academicYear }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="unit"
-        label="在岗状态">
-        <template slot-scope="{ row }">{{ row.onDutyStatus }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="unit"
-        label="审核状态">
-<!--        <template slot-scope="{ row }">{{ row.reviewStatus }}</template>-->
-        <template slot-scope="{ row }">
-          <span class="red-text">{{ row.reviewStatus }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="详情">
-        <template slot-scope="{ row }">
-        <el-button class="operation-button" type="primary" @click="showDetail(row)">详情</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-        <!-- 分页器 -->
-    <div style="display: flex;justify-content: flex-end; padding: 20px 20px 0 0">
-      <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="pageNumber"
-      :page-sizes="[5, 10, 20]"
-      :page-size="5"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="totalCount">
-    </el-pagination>
-    </div>
+      <span class="son-title">
+      个人信息认证
+      </span>
+      <el-form :label-position="labelPosition" label-width="80px" :model="formLabelAlign" class="form-container">
+         <el-form-item label="姓名" style="width: 70%;">
+           <el-input v-model="formLabelAlign.name"></el-input>
+         </el-form-item>
+         <el-form-item label="专业" style="width: 70%;">
+           <el-input v-model="formLabelAlign.major"></el-input>
+         </el-form-item>
+         <el-form-item label="班级" style="width: 70%;">
+           <el-input v-model="formLabelAlign.classes"></el-input>
+         </el-form-item>
+         <el-form-item label="银行卡号" style="width: 70%;">
+           <el-input v-model="formLabelAlign.bankCardNumber"></el-input>
+         </el-form-item>
+         <el-form-item label="联系电话" style="width: 70%;">
+           <el-input v-model="formLabelAlign.phone"></el-input>
+         </el-form-item>
+         <el-form-item label="贫困生" style="width: 70%;">
+          <el-select v-model="formLabelAlign.poorSymbol" placeholder="请选择">
+            <el-option label="是" :value="0"></el-option>
+            <el-option label="否" :value="1"></el-option>
+          </el-select>
+         </el-form-item>
+         <el-button type="primary" class="modify" @click="goModigy">提交修改</el-button>
+       </el-form>
     </el-main>
   </el-container>
 </el-container>
@@ -132,6 +87,13 @@ export default {
         unitOptions: [],
         positionTitle: ''
       },
+      labelPosition: 'left',
+      formLabelAlign: {
+        name: '',
+        region: '',
+        type: '',
+        poorSymbol: ''
+      },
       data: {
         list: []
       },
@@ -142,8 +104,7 @@ export default {
       bankCardNumber: '',
       phone: '',
       academicYear: '',
-      onDutyStatus: '',
-      reviewStatus: '',
+      unit: '',
       currentPage: '',
       pageNumber: 1,
       pageSize: 5,
@@ -154,11 +115,14 @@ export default {
     goBack () {
       this.$router.push('/')
     },
+    goModigy () {
+
+    },
     goTotal () {
       this.$router.push('/student/home')
     },
-    goPerson () {
-      this.$router.push('/student/person')
+    goApply () {
+      this.$router.push('/student/apply')
     },
     handlePhoneIconClick () {
       const h = this.$createElement
@@ -211,9 +175,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.red-text{
-  color: red;
-}
 .home {
   display: flex;
   height: 100vh;
@@ -261,6 +222,13 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
+.form-container {
+  height: 70%;
+  width: 80%;
+  margin-top: 20px;
+  margin-left: 10%;
+  justify-content: center;
+}
 
 .header-content {
   display: flex;
@@ -283,5 +251,12 @@ export default {
     display: flex;
   align-items: center;
   justify-content: center;
+  }
+  .son-title{
+    font-size: 25px;
+    margin-left: 30%;
+  }
+  .modify{
+    margin-left: 30%;
   }
 </style>
