@@ -35,6 +35,7 @@
           <template slot="页面汇总"></template>
           <el-menu-item index="1-1">岗位列表</el-menu-item>
           <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
+          <el-menu-item index="1-3" @click="goPerson">个人中心</el-menu-item>
         </el-menu-item-group>
     </el-menu>
     </div>
@@ -182,6 +183,9 @@ export default {
     },
     goApply () {
       this.$router.push('/student/apply')
+    },
+    goPerson () {
+      this.$router.push('/student/person')
     },
     handlePhoneIconClick () {
       const h = this.$createElement
