@@ -244,7 +244,7 @@ export default {
         // 发送请求获取下拉框选项数据
         const response = await axios.get('http://localhost:8866/ptjs/job/unit')
         console.log(response.data.data)
-        this.formInline.unitOptions = Array.from(new Set(response.data.data))
+        this.formInline.unitOptions = ['', ...Array.from(new Set(response.data.data))];
         console.log(this.formInline.unitOptions)
         // 其他代码...
       } catch (error) {
