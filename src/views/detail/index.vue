@@ -129,9 +129,24 @@ export default {
   mounted () {
     this.fetchData()
   },
+  async created () {
+    try {
+        const url = `http://localhost:8866/ptjs/job/${row.id}`;
+        const response = await axios.get(url)
+        this.jobInfo = response.data.data
+        this.$message.success("查询成功")
+      } catch (error) {
+        console.error(error)
+      }
+  },
   methods: {
     goBack () {
-      this.$router.push('/student/home')
+      this.$router.push({
+        path:"/student/home",
+        query:{
+          username:this.$route.query.username
+        }
+      })
     },
     async fetchData () {
       try {

@@ -40,7 +40,7 @@ const routes = [
     name: 'StudentPerson',
     component: StudentPerson
   }, {
-    path: '/student/detail',
+    path: '/job/detail',
     name: 'Detail',
     component: Detail
   }

@@ -198,8 +198,14 @@ export default {
         }
       })
     },
-    showDetail (row) {
-      this.$router.push('/student/detail')
+    async showDetail (row) {
+      this.$router.push({
+        path:"/job/detail",
+        query:{
+          id:row.id,
+          username:this.$route.query.username
+        }
+      })
     },
     handlePhoneIconClick () {
       const h = this.$createElement

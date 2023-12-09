@@ -183,12 +183,23 @@ export default {
     handleSwitchIconClick () {
       this.goBack()
     },
+    async goModify () {
+      try {
+        const url = `http://localhost:8866/ptjs/user`;
+        const response = await axios.put(url,this.formLabelAlign);
+        this.$message.success("修改成功")
+        console.log(this.formLabelAlign)
+      } catch (error) {
+        console.error(error)
+      }
+    },
     async fetchData () {
       try {
         const response = await axios.get('http://localhost:8866/ptjs/job/apply', {
           params: {
             pageNumber: this.pageNumber,
-            pageSize: this.pageSize
+            pageSize: this.pageSize,
+            username: this.$route.query.username
           }
         })
         console.log(response.data)
