@@ -195,7 +195,7 @@ export default {
     },
     async fetchData () {
       try {
-        const response = await axios.get('http://localhost:8866/ptjs/job/apply', {
+        const response = await axios.get('http://localhost:8866/ptjs/applianceList/apply', {
           params: {
             pageNumber: this.pageNumber,
             pageSize: this.pageSize,
