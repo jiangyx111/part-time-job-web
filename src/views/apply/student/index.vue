@@ -155,10 +155,20 @@ export default {
       this.$router.push('/')
     },
     goTotal () {
-      this.$router.push('/student/home')
+      this.$router.push({
+        path:"/student/home",
+        query:{
+          username:this.$route.query.username
+        }
+      })
     },
     goPerson () {
-      this.$router.push('/student/person')
+      this.$router.push({
+        path:"/student/person",
+        query:{
+          username:this.$route.query.username
+        }
+      })
     },
     handlePhoneIconClick () {
       const h = this.$createElement

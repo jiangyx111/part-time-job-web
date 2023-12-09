@@ -67,7 +67,7 @@
             <el-option label="否" :value="1"></el-option>
           </el-select>
          </el-form-item>
-         <el-button type="primary" class="modify" @click="goModigy">提交修改</el-button>
+         <el-button type="primary" class="modify" @click="goModify">提交修改</el-button>
        </el-form>
     </el-main>
   </el-container>
@@ -90,21 +90,16 @@ export default {
       labelPosition: 'left',
       formLabelAlign: {
         name: '',
-        region: '',
-        type: '',
+        major: '',
+        classes: '',
+        bankCardNumber: '',
+        phone: '',
         poorSymbol: ''
       },
       data: {
         list: []
       },
       id: '',
-      positionTitle: '',
-      positionType: '',
-      startWorkDate: '',
-      bankCardNumber: '',
-      phone: '',
-      academicYear: '',
-      unit: '',
       currentPage: '',
       pageNumber: 1,
       pageSize: 5,
@@ -115,14 +110,32 @@ export default {
     goBack () {
       this.$router.push('/')
     },
-    goModigy () {
-
+    async goModify () {
+      try {
+        const url = `http://localhost:8866/ptjs/user`;
+        const response = await axios.put(url,this.formLabelAlign);
+        this.$message.success("修改成功")
+        console.log(this.formLabelAlign)
+      } catch (error) {
+        console.error(error)
+      }
     },
     goTotal () {
-      this.$router.push('/student/home')
+      this.$router.push({
+        path:"/student/home",
+        query:{
+          username:this.$route.query.username
+        }
+      })
     },
     goApply () {
-      this.$router.push('/student/apply')
+      this.$router.push({
+        path:"/student/apply",
+        query:{
+          username:this.$route.query.username
+        }
+      })
+  
     },
     handlePhoneIconClick () {
       const h = this.$createElement
@@ -139,15 +152,10 @@ export default {
     },
     async fetchData () {
       try {
-        const response = await axios.get('http://localhost:8866/ptjs/job/apply', {
-          params: {
-            pageNumber: this.pageNumber,
-            pageSize: this.pageSize
-          }
-        })
-        console.log(response.data)
-        this.data = response.data.data
-        this.totalCount = response.data.totalCount
+        const url = `http://localhost:8866/ptjs/user/${this.$route.query.username}`;
+        const response = await axios.get(url);
+        this.formLabelAlign = response.data.data
+        console.log(this.formLabelAlign)
       } catch (error) {
         console.error(error)
       }
