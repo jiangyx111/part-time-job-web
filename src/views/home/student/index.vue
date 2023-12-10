@@ -35,6 +35,7 @@
           <template slot="页面汇总"></template>
           <el-menu-item index="1-1">岗位列表</el-menu-item>
           <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
+          <el-menu-item index="1-3" @click="goPerson">个人中心</el-menu-item>
         </el-menu-item-group>
     </el-menu>
     </div>
@@ -147,6 +148,7 @@ import axios from 'axios'
 export default {
   created () {
     this.fetchData()
+    console.log(this.$route.query.username)
     this.fetchUnit()
   },
   name: 'HomeIndex',
@@ -181,7 +183,29 @@ export default {
       this.$router.push('/')
     },
     goApply () {
-      this.$router.push('/student/apply')
+      this.$router.push({
+        path:"/student/apply",
+        query:{
+          username:this.$route.query.username
+        }
+      })
+    },
+    goPerson () {
+      this.$router.push({
+        path:"/student/person",
+        query:{
+          username:this.$route.query.username
+        }
+      })
+    },
+    async showDetail (row) {
+      this.$router.push({
+        path:"/job/detail",
+        query:{
+          id:row.id,
+          username:this.$route.query.username
+        }
+      })
     },
     handlePhoneIconClick () {
       const h = this.$createElement
@@ -220,7 +244,7 @@ export default {
         // 发送请求获取下拉框选项数据
         const response = await axios.get('http://localhost:8866/ptjs/job/unit')
         console.log(response.data.data)
-        this.formInline.unitOptions = Array.from(new Set(response.data.data))
+        this.formInline.unitOptions = ['', ...Array.from(new Set(response.data.data))];
         console.log(this.formInline.unitOptions)
         // 其他代码...
       } catch (error) {
