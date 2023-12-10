@@ -1,5 +1,48 @@
 <template>
-  <div>
+  <el-container>
+  <el-header class="header">
+  <div class="header-content">
+    <div class="top-left">
+      <img src="./logo.png" alt="logo" style="width: 80px;">
+      <span class="title">
+      勤工助学管理系统
+      </span>
+    </div>
+  </div>
+  <el-breadcrumb separator="/" style="padding-left: 10px;">
+  <el-breadcrumb-item></el-breadcrumb-item>
+  <el-breadcrumb-item>学生-岗位列表</el-breadcrumb-item>
+  </el-breadcrumb>
+  <div class="right-align">
+    <el-button type="text" @click="handlePhoneIconClick">
+    <i class="el-icon-phone" style="padding-right: 20px;"></i>
+    </el-button>
+    <el-button type="text" @click="handleSwitchIconClick">
+    <i class="el-icon-switch-button" style="padding-right: 20px;"></i>
+    </el-button>
+    <el-button type="primary" class="back" @click="goBack">退出登录</el-button>
+  </div>
+</el-header>
+  <el-container>
+  <el-aside width="200px">
+      <div class="menu" style="flex: 1;">
+        <el-menu
+      default-active="2"
+      class="el-menu-vertical-demo"
+      @open="handleOpen"
+      @close="handleClose">
+        <el-menu-item-group>
+          <template slot="页面汇总"></template>
+          <el-menu-item index="1-1" @click="goTotal">岗位列表</el-menu-item>
+          <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
+          <el-menu-item index="1-3" @click="goPerson">个人中心</el-menu-item>
+        </el-menu-item-group>
+    </el-menu>
+    </div>
+  </el-aside>
+   <el-main>
+  <div class="home">
+    <!-- <el-button type="primary" class="goback el-button--small" @click="goBack">返回</el-button> -->
     <div class="chart1">
       <div class="chart" ref="verticalBarChart"></div>
     </div>
@@ -13,6 +56,9 @@
       <div class="chart" ref="pieChart"></div>
     </div>
   </div>
+</el-main>
+  </el-container>
+</el-container>
 </template>
 
 <script>
@@ -20,6 +66,46 @@ import echarts from 'echarts'
 
 export default {
   name: 'statisticsIndex',
+  methods: {
+    goTotal () {
+      this.$router.push({
+        path: '/student/home',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
+    goApply () {
+      this.$router.push({
+        path: '/student/apply',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
+    goPerson () {
+      this.$router.push({
+        path: '/student/person',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
+    handlePhoneIconClick () {
+      const h = this.$createElement
+
+      this.$notify({
+        title: '客服联系方式',
+        message: h('div', { style: 'color: teal' }, [
+          '联系人：计算机能力有限小组',
+          '联系电话：189-XXXX-XXXX'
+        ].map(text => h('div', [text, h('br')])))
+      })
+    },
+    handleSwitchIconClick () {
+      this.goBack()
+    }
+  },
   mounted () {
     // 初始化竖向柱状图实例
     const verticalBarChart = echarts.init(this.$refs.verticalBarChart)
@@ -104,8 +190,8 @@ export default {
 
 <style lang="scss" scoped>
 .chart {
-  width: 400px;
-  height: 300px;
+  width: 320px;
+  height: 280px;
 }
 
 .chart1 {
@@ -121,6 +207,7 @@ export default {
   position: absolute;
   right: 0;
   top: 0;
+  padding-right: 60px;
   /* margin-top: 0px; */
   /* margin-left: 50px; */
 }
@@ -129,6 +216,8 @@ export default {
   position: absolute;
   bottom: 0;
   left: 0;
+  padding-left: 100px;
+  padding-bottom: 40px;
   /* margin-top: 0px; */
   /* margin-left: 10px; */
 }
@@ -137,7 +226,69 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+  padding-bottom: 40px;
+  padding-right: 60px;
+
   /* margin-top: 0px; */
   /* margin-left: 700px; */
+}
+.home {
+  width: 100%;
+  height: 100vh;
+  align-items: flex-start;
+  // background-image: url('./login.jpg'); /* 设置背景图 */
+  background-size: cover;
+  background-position: center;
+  position: relative; /* 设置为相对定位 */
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+.header-content {
+  display: flex;
+  align-items: center;
+  flex-direction: row; /* 将子元素水平排列 */
+  justify-content: space-between; /* 按钮最右显示 */
+}
+.header {
+    height: 50px;
+    border-bottom: 2px solid rgb(233, 233, 233);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+}
+.right-align {
+  margin-left: auto;
+}
+
+  .back {
+    margin-right: 20px;
+  }
+  .title{
+    font-size: 25px;
+    font-family: "微软雅黑";
+    margin-left: 20px;
+  }
+  .top-left{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+  .goback {
+  margin-bottom: 15px;
+  margin-left: 20px;
+  margin-top: 15px;
 }
 </style>
