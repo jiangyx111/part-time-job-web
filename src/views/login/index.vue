@@ -74,7 +74,7 @@ export default {
         identity: identity
       }
       if (identity === '1') {
-        axios.post('http://192.168.42.114:8866/ptjs/user/login', requestData)
+        axios.post('http://localhost:8866/ptjs/user/login', requestData)
           .then(response => {
             console.log(response.data.code)
             if (response.data.code === 0) {
@@ -95,7 +95,7 @@ export default {
           // 在这里可以给用户显示错误提示信息
           })
       } else if (identity === '2') {
-        axios.post('http://192.168.42.114:8866/ptjs/user/login', requestData)
+        axios.post('http://localhost:8866/ptjs/user/login', requestData)
           .then(response => {
             if (response.data.code === 0) {
               // 请求成功的处理逻辑

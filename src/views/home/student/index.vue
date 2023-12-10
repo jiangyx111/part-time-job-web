@@ -199,7 +199,7 @@ export default {
     },
     async fetchData () {
       try {
-        const response = await axios.get('http://192.168.42.114:8866/ptjs/job/page', {
+        const response = await axios.get('http://localhost:8866/ptjs/job/page', {
           params: {
             pageNumber: this.pageNumber,
             pageSize: this.pageSize,
@@ -218,7 +218,7 @@ export default {
     async fetchUnit () {
       try {
         // 发送请求获取下拉框选项数据
-        const response = await axios.get('http://192.168.42.114:8866/ptjs/job/unit')
+        const response = await axios.get('http://localhost:8866/ptjs/job/unit')
         console.log(response.data.data)
         this.formInline.unitOptions = Array.from(new Set(response.data.data))
         console.log(this.formInline.unitOptions)

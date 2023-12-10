@@ -45,6 +45,9 @@
           <div class="selectandtable">
             <div class="select">
               <el-form :inline="true" :model="formInline" class="demo-form-inline">
+                <el-form-item>
+                <el-button type="primary" @click="create">新建</el-button>
+                </el-form-item>
                 <el-form-item label="单位">
                   <el-select v-model="formInline.unit" placeholder="单位">
                     <el-option
@@ -100,13 +103,15 @@
                 <el-table-column prop="unit" label="单位">
                   <template slot-scope="{ row }">{{ row.unit }}</template>
                 </el-table-column>
-                <el-table-column label="操作">
-                  <template slot-scope="{ row }">
-                    <el-button class="operation-button" type="primary" @click="showDetail(row)">详情</el-button>
-                    <el-button class="operation-button" type="success" @click="edit(row)">修改</el-button>
-                    <el-button class="operation-button" type="danger" @click="remove(row)">删除</el-button>
-                  </template>
-                </el-table-column>
+                <el-table-column label="操作" width="300">
+    <template slot-scope="{ row }">
+      <div class="operation-buttons">
+        <el-button type="primary" @click="showDetail(row)">详情</el-button>
+        <el-button type="success" @click="edit(row)">修改</el-button>
+        <el-button type="danger" @click="remove(row)">删除</el-button>
+      </div>
+    </template>
+  </el-table-column>
               </el-table>
 
               <!-- 分页器 -->
@@ -131,13 +136,13 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   created () {
     this.fetchData()
     this.fetchUnit()
   },
+ 
   name: 'HomeIndex',
   data () {
     return {
@@ -166,12 +171,14 @@ export default {
     }
   },
   methods: {
+    
     goBack () {
       this.$router.push('/')
     },
     goApply () {
       this.$router.push('/student/apply')
     },
+   
     handlePhoneIconClick () {
       const h = this.$createElement
 
@@ -210,23 +217,23 @@ export default {
     handleClose (key, keyPath) {
       console.log(key, keyPath)
     },
-    fetchData () {
-      axios
-        .get('/api/positions', {
+    async fetchData () {
+      try {
+        const response = await axios.get('http://localhost:8866/ptjs/job/page', {
           params: {
             pageNumber: this.pageNumber,
             pageSize: this.pageSize,
+            name: this.name, // 姓名查询条件
+            unit: this.formInline.unit, // 根据下拉选择框的值设置查询条件
             positionTitle: this.formInline.positionTitle
           }
         })
-        .then(response => {
-          console.log(response.data)
-          this.data.list = response.data.list
-          this.totalCount = response.data.totalCount
-        })
-        .catch(error => {
-          console.log(error)
-        })
+        console.log(response.data)
+        this.data = response.data.data
+        this.totalCount = response.data.totalCount
+      } catch (error) {
+        console.error(error)
+      }
     },
     fetchUnit () {
       axios
@@ -246,11 +253,12 @@ export default {
       this.$router.push(`/teacher/detail/${row.id}`)
     },
     edit (row) {
-      // 编辑岗位的逻辑
+      // 修改岗位的逻辑
     },
     remove (row) {
       // 删除岗位的逻辑
     }
+   
   }
 }
 </script>
@@ -361,5 +369,13 @@ text-overflow: ellipsis;
 
 .el-table .el-table__fixed-body-wrapper {
 padding-bottom: 50px;
+}
+.operation-buttons {
+  display: flex;
+}
+
+.operation-buttons el-button {
+  flex: 1;
+  margin-right: 5px;
 }
 </style>
