@@ -45,32 +45,10 @@
 <!-- 表格 -->
 <div class="ApplyDetail">
     <el-button type="primary" class="goback el-button--small" @click="goJobDetail">返回</el-button>
-    <el-button type="primary" class="goback el-button--small" @click="goModify">修改</el-button>
-    <el-button type="primary" class="goback el-button--small" @click="goCancel">撤回申请</el-button>
+    <el-button type="primary" class="goback el-button--small" @click="goToApply">提交申请</el-button>
     <div class="message">
       <table class="table_style">
         <tbody>
-          <tr>
-            <th colspan="4" style="text-align: left;">审批情况</th>
-          </tr>
-          <tr>
-            <th style="width: 20%;">用人单位审批状态：</th>
-            <td style="width: 30%;">{{ jobInfo.reviewStatus}}</td>
-            <th style="width: 20%;">审批时间：</th>
-            <td style="width: 30%;">{{ jobInfo.reviewDateTime}}</td>
-          </tr>
-          <tr>
-            <th style="width: 20%;">审批人：</th>
-            <td colspan="3"></td>
-          </tr>
-          <tr>
-            <th style="width: 20%;">审批理由：</th>
-            <td colspan="3">{{ jobInfo.reviewReason}}</td>
-          </tr>
-          <tr>
-            <th style="width: 20%;">当前审核状态：</th>
-            <td colspan="3"></td>
-          </tr>
           <tr>
             <th colspan="4" style="text-align: left;">申请岗位信息</th>
           </tr>
@@ -226,6 +204,7 @@
 </template>
 <script>
 import axios from 'axios'
+import { Message } from 'element-ui'
 export default {
   name: 'AppleDetailIndex',
   created () {
@@ -257,6 +236,54 @@ export default {
           username:this.$route.query.username
         }
       })
+    },
+    async goToApply () {
+      try {
+        const url = 'http://localhost:8866/ptjs/applianceList/apply/submit'
+        const response = await axios.post(url,{
+            applianceListId:'',
+            jobId:this.$route.query.jobId,
+            username:this.$route.query.username,
+            name:this.jobInfo.name,
+            major:this.jobInfo.major,
+            classes:this.jobInfo.classes,
+            bankCardNumber:this.jobInfo.bankCardNumber,
+            phone:this.jobInfo.phone,
+            poorSymbol:this.jobInfo.poorSymbol,
+            classNumber:this.jobInfo.classNumber,
+            average:this.jobInfo.average,
+            special:this.jobInfo.special,
+            applianceReason:this.jobInfo.applianceReason,
+            academicYear:this.jobInfo.academicYear,
+            unit:this.jobInfo.unit,
+            positionTitle:this.jobInfo.positionTitle,
+            positionType:this.jobInfo.positionType,
+            positionLevel:this.jobInfo.positionLevel,
+            startWorkDate:this.jobInfo.startWorkDate,
+            endWorkDate:this.jobInfo.endWorkDate,
+            workingWeek:this.jobInfo.workingWeek,
+            salary:this.jobInfo.salary,
+            teacher:this.jobInfo.teacher,
+            budget:this.jobInfo.budget,
+            numberLastYear:this.jobInfo.numberLastYear,
+            applyMonth:this.jobInfo.applyMonth,
+            demandMonth:this.jobInfo.demandMonth,
+            hireType:this.jobInfo.hireType,
+            workPlace:this.jobInfo.workPlace,
+            positionDuty:this.jobInfo.positionDuty,
+            positionDemand:this.jobInfo.positionDemand,
+            requireNumber:this.jobInfo.requireNumber,
+            applyNumber:this.jobInfo.applyNumber,
+            passNumber:this.jobInfo.passNumber,
+            reviewStatus:this.jobInfo.reviewStatus,
+            reviewDateTime:this.jobInfo.reviewDateTime,
+            reviewReason:this.jobInfo.reviewReason
+        })
+        Message.success("申请成功");
+        this.goTotal()
+      } catch (error) {
+        console.log('Error fetching data:', error)
+      }
     },
     goJobDetail () {
       this.$router.push({

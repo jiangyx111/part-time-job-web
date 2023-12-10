@@ -203,7 +203,13 @@ export default {
 
   methods: {
     goApplyDetail (){
-
+      this.$router.push({
+        path:"/apply/submit",
+        query:{
+          username:this.$route.query.username,
+          jobId:this.$route.query.id
+        }
+      })
     },
     goBack () {
       this.$router.push({
@@ -217,7 +223,8 @@ export default {
       this.$router.push({
         path:"/student/home",
         query:{
-          username:this.$route.query.username
+          username:this.$route.query.username,
+          jobId:this.$route.query.id
         }
       })
     },

@@ -151,6 +151,15 @@ export default {
     }
   },
   methods: {
+    showDetail (row) {
+      this.$router.push({
+        path:"/apply/detail/",
+        query:{
+          username:this.$route.query.username,
+          jobId:row.id 
+        }
+      })
+    },
     goBack () {
       this.$router.push('/')
     },

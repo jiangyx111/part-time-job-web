@@ -7,6 +7,7 @@ import Login from '@/views/login/index'
 import Register from '@/views/register/index'
 import Detail from '@/views/detail/index'
 import ApplyDetail from '@/views/apply/detail/index'
+import ApplySubmit from '@/views/apply/submit/index'
 
 Vue.use(VueRouter)
 
@@ -49,6 +50,11 @@ const routes = [
     path: '/apply/detail',
     name: 'ApplyDetail',
     component: ApplyDetail
+  },
+  {
+    path: '/apply/submit',
+    name: 'ApplySubmit',
+    component: ApplySubmit
   }
 ]
 
