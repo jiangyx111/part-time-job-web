@@ -33,9 +33,10 @@
       @close="handleClose">
         <el-menu-item-group>
           <template slot="页面汇总"></template>
-          <el-menu-item index="1-1" @click="goTotal">岗位列表</el-menu-item>
-          <el-menu-item index="1-2" >申请列表</el-menu-item>
-          <el-menu-item index="1-3" @click="goPerson">个人中心</el-menu-item>
+          <el-menu-item index="1-2" @click="goStatistics">首页</el-menu-item>
+          <el-menu-item index="1-3" @click="goTotal">岗位列表</el-menu-item>
+          <el-menu-item index="1-4" >申请列表</el-menu-item>
+          <el-menu-item index="1-5" @click="goPerson">个人中心</el-menu-item>
 
         </el-menu-item-group>
     </el-menu>
@@ -154,19 +155,27 @@ export default {
     goBack () {
       this.$router.push('/')
     },
+    goStatistics () {
+      this.$router.push({
+        path: '/statistics',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
     goTotal () {
       this.$router.push({
-        path:"/student/home",
-        query:{
-          username:this.$route.query.username
+        path: '/student/home',
+        query: {
+          username: this.$route.query.username
         }
       })
     },
     goPerson () {
       this.$router.push({
-        path:"/student/person",
-        query:{
-          username:this.$route.query.username
+        path: '/student/person',
+        query: {
+          username: this.$route.query.username
         }
       })
     },
@@ -185,9 +194,9 @@ export default {
     },
     async goModify () {
       try {
-        const url = `http://localhost:8866/ptjs/user`;
-        const response = await axios.put(url,this.formLabelAlign);
-        this.$message.success("修改成功")
+        // const url = `http://localhost:8866/ptjs/user`;
+        // const response = await axios.put(url,this.formLabelAlign);
+        this.$message.success('修改成功')
         console.log(this.formLabelAlign)
       } catch (error) {
         console.error(error)

@@ -85,9 +85,10 @@ export default {
               store.commit('setUsername', requestData.username)
               Message.success(response.data.msg)
               this.$router.push({
-                path:"/student/home",
-                query:{
-                  username:username
+                // path:"/student/home",
+                path: '/statistics',
+                query: {
+                  username: username
                 }
               })
             } else {
@@ -108,9 +109,9 @@ export default {
               // 执行登录成功后的操作，如跳转到其他页面
               Message.success(response.data.msg)
               this.$router.push({
-                path:"/teacher/home",
-                query:{
-                  username:username
+                path: '/teacher/home',
+                query: {
+                  username: username
                 }
               })
             } else {
