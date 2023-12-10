@@ -93,7 +93,7 @@ export default {
       this.$refs.form.validate(valid => {
         if (valid) {
           axios
-            .post('http://localhost:8866/ptjs/user/register', requestData)
+            .post('http://192.168.42.114:8866/ptjs/user/register', requestData)
             .then(response => {
               // 请求成功的处理逻辑
               if (response.data.code === 0) {
