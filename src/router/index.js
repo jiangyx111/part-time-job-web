@@ -6,6 +6,7 @@ import StudentPerson from '@/views/person/student/index'
 import Login from '@/views/login/index'
 import Register from '@/views/register/index'
 import Detail from '@/views/detail/index'
+import ApplyDetail from '@/views/apply/detail/index'
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,11 @@ const routes = [
     path: '/job/detail',
     name: 'Detail',
     component: Detail
+  },
+  {
+    path: '/apply/detail',
+    name: 'ApplyDetail',
+    component: ApplyDetail
   }
 ]
 
