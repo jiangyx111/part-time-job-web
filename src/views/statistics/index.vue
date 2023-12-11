@@ -64,6 +64,7 @@
 
 <script>
 import echarts from 'echarts'
+import axios from 'axios'
 
 export default {
   name: 'statisticsIndex',
@@ -110,83 +111,140 @@ export default {
       this.goBack()
     }
   },
+  data () {
+    return {
+      departmentsNumbers: [],
+      positionApplicantsNumbers: [],
+      PositionWorkingHours: [],
+      PositionSalaryLevels: [],
+      url: {
+        eachDepartmentNumbers: 'http://localhost:8866/ptjs/statistics/eachDepartmentNumbers',
+        eachPositionApplicantsNumbers: 'http://localhost:8866/ptjs/statistics/eachPositionApplicantsNumbers',
+        eachPositionWorkingHours: 'http://localhost:8866/ptjs/statistics/eachPositionWorkingHours',
+        eachPositionSalaryLevels: 'http://localhost:8866/ptjs/statistics/eachPositionSalaryLevels'
+      }
+    }
+  },
   mounted () {
-    // 初始化竖向柱状图实例
-    const verticalBarChart = echarts.init(this.$refs.verticalBarChart)
-    // 绘制竖向柱状图
-    verticalBarChart.setOption({
-      // 配置项
-      title: {
-        text: '竖向柱状图'
-      },
-      xAxis: {
-        data: ['A', 'B', 'C', 'D', 'E']
-      },
-      yAxis: {},
-      series: [{
-        name: '数量',
-        type: 'bar',
-        data: [5, 20, 36, 10, 10]
-      }]
-    })
+    // 统计各个部门的需求人数
+    axios.get(this.url.eachDepartmentNumbers)
+      .then(response => {
+        // 获取后端数据
+        const responseData = response.data.data
+        // console.log(responseData);
+        // 部门名称
+        const departments = responseData.map(item => Object.keys(item)[0])
+        // 需求人数
+        const numbers = responseData.map(item => Object.values(item)[0])
 
-    // 初始化横向柱状图实例
-    const horizontalBarChart = echarts.init(this.$refs.horizontalBarChart)
-    // 绘制横向柱状图
-    horizontalBarChart.setOption({
-      // 配置项
-      title: {
-        text: '横向柱状图'
-      },
-      yAxis: {
-        data: ['A', 'B', 'C', 'D', 'E']
-      },
-      xAxis: {},
-      series: [{
-        name: '数量',
-        type: 'bar',
-        data: [5, 20, 36, 10, 10]
-      }]
-    })
+        // 初始化竖向柱状图实例
+        const verticalBarChart = echarts.init(this.$refs.verticalBarChart)
+        // 绘制竖向柱状图
+        verticalBarChart.setOption({
+          // 配置项
+          title: {
+            text: '各部门需求人数'
+          },
+          xAxis: {
+            // 使用部门名称数组作为 x 轴数据
+            data: departments
+          },
+          yAxis: {},
+          series: [{
+            name: '数量',
+            type: 'bar',
+            // 使用需求人数数组作为柱状图数据
+            data: numbers
+          }]
+        })
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error)
+      })
+    // 统计各个岗位的申请人数
+    axios.get(this.url.eachPositionApplicantsNumbers).then(response => {
+      // 获取后端数据
+      const responseData = response.data.data
+      // 岗位名称
+      const positionTitle = responseData.map(item => Object.keys(item)[0])
+      // 申请人数
+      const applyNumbers = responseData.map(item => Object.values(item)[0])
 
-    // 初始化折线图实例
-    const lineChart = echarts.init(this.$refs.lineChart)
-    // 绘制折线图
-    lineChart.setOption({
-      // 配置项
-      title: {
-        text: '折线图'
-      },
-      xAxis: {
-        data: ['A', 'B', 'C', 'D', 'E']
-      },
-      yAxis: {},
-      series: [{
-        name: '数量',
-        type: 'line',
-        data: [5, 20, 36, 10, 10]
-      }]
+      // 初始化横向柱状图实例
+      const horizontalBarChart = echarts.init(this.$refs.horizontalBarChart)
+      // 绘制横向柱状图
+      horizontalBarChart.setOption({
+        // 配置项
+        title: {
+          text: '各个岗位的申请人数'
+        },
+        yAxis: {
+          data: positionTitle
+        },
+        xAxis: {},
+        series: [{
+          name: '数量',
+          type: 'bar',
+          data: applyNumbers
+        }]
+      })
+    }
+    ).catch(error => {
+      console.error('Error fetching data:', error)
     })
+    // 统计各个岗位的工作时长
+    axios.get(this.url.eachPositionWorkingHours).then(response => {
+      const responseData = response.data.data
+      // 岗位名称
+      const positionTitle = responseData.map(item => Object.keys(item)[0])
+      // 每周工作时长
+      const workingTimeWeek = responseData.map(item => Object.values(item)[0])
 
-    // 初始化饼状图实例
-    const pieChart = echarts.init(this.$refs.pieChart)
-    // 绘制饼状图
-    pieChart.setOption({
-      // 配置项
-      title: {
-        text: '饼状图'
-      },
-      series: [{
-        name: '数量',
-        type: 'pie',
-        data: [
-          { value: 5, name: 'A' },
-          { value: 20, name: 'B' },
-          { value: 36, name: 'C' },
-          { value: 10, name: 'D' },
-          { value: 10, name: 'E' }
-        ]
-      }]
+      // 初始化折线图实例
+      const lineChart = echarts.init(this.$refs.lineChart)
+      // 绘制折线图
+      lineChart.setOption({
+        // 配置项
+        title: {
+          text: '各个岗位的每周工作时长'
+        },
+        xAxis: {
+          data: positionTitle
+        },
+        yAxis: {},
+        series: [{
+          name: '数量',
+          type: 'line',
+          data: workingTimeWeek
+        }]
+      })
+    }
+    ).catch(error => {
+      console.error('Error fetching data:', error)
+    })
+    // 统计各个岗位的薪资水平
+    axios.get(this.url.eachPositionSalaryLevels).then(response => {
+    // 处理后端数据
+      const data = response.data.data.map(item => ({
+        value: item[Object.keys(item)[0]], // 薪资水平作为值
+        name: Object.keys(item)[0] // 岗位名称作为名称
+      }))
+      // 初始化饼状图实例
+      const pieChart = echarts.init(this.$refs.pieChart)
+      // 绘制饼状图
+      pieChart.setOption({
+        // 配置项
+        title: {
+          text: '各个岗位的薪资水平'
+        },
+        series: [{
+          name: '数量',
+          type: 'pie',
+          data: data
+        }]
+      })
+    }).catch(error => {
+      console.error('Error fetching data:', error)
     })
   }
 }
@@ -194,8 +252,8 @@ export default {
 
 <style lang="scss" scoped>
 .chart {
-  width: 320px;
-  height: 280px;
+  width: 550px;
+  height: 350px;
 }
 
 .chart1 {
