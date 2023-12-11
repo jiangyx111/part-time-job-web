@@ -33,11 +33,10 @@
       @close="handleClose">
         <el-menu-item-group>
           <template slot="页面汇总"></template>
-          <el-menu-item index="1-2" @click="goStatistics">首页</el-menu-item>
-          <el-menu-item index="1-3" @click="goTotal">岗位列表</el-menu-item>
-          <el-menu-item index="1-4" >申请列表</el-menu-item>
-          <el-menu-item index="1-5" @click="goPerson">个人中心</el-menu-item>
-
+          <el-menu-item index="1-1" @click="goStatistics">首页</el-menu-item>
+          <el-menu-item index="1-2" @click="goTotal">岗位列表</el-menu-item>
+          <el-menu-item index="1-3" >申请列表</el-menu-item>
+          <el-menu-item index="1-4" @click="goPerson">个人中心</el-menu-item>
         </el-menu-item-group>
     </el-menu>
     </div>
@@ -157,7 +156,7 @@ export default {
         path:"/apply/detail/",
         query:{
           username:this.$route.query.username,
-          jobId:row.id 
+          jobId:row.jobId 
         }
       })
     },

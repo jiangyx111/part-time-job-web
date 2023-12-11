@@ -33,9 +33,10 @@
       @close="handleClose">
         <el-menu-item-group>
           <template slot="页面汇总"></template>
-          <el-menu-item index="1-1" @click="goTotal">岗位列表</el-menu-item>
-          <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
-          <el-menu-item index="1-3" @click="goPerson">个人中心</el-menu-item>
+          <el-menu-item index="1-1" @click="goStatistics">首页</el-menu-item>
+          <el-menu-item index="1-2" @click="goTotal">岗位列表</el-menu-item>
+          <el-menu-item index="1-3" @click="goApply">申请列表</el-menu-item>
+          <el-menu-item index="1-4" @click="goPerson">个人中心</el-menu-item>
         </el-menu-item-group>
     </el-menu>
     </div>
@@ -170,29 +171,29 @@
           <tr>
             <th style="width: 20%;">联系电话：</th>
             <td style="width: 30%;">
-                <input type="text" v-model="phoneNumber">
+                <input type="text" v-model="jobInfo.phoneNumber">
                 <span class="required-indicator" v-show="!phoneNumber"> *</span>
             </td>
             <th style="width: 20%;">银行卡号：</th>
             <td style="width: 30%;">
-                <input type="text" v-model="bankCardNumber">
+                <input type="text" v-model="jobInfo.bankCardNumber">
                 <span class="required-indicator" v-show="!phoneNumber"> *</span>
             </td>
           </tr>
           <tr>
             <th style="width: 20%;">QQ：</th>
             <td colspan="3">
-                <input type="text" v-model="qqNumber">
+                <input type="text" v-model="jobInfo.qqNumber">
             </td>
           </tr>
           <tr>
             <th style="width: 20%;">是否认定为贫困生：</th>
             <td colspan="3">
                 <label>
-                    <input type="radio" value="是" v-model="economicDifficulties"> 是
+                    <input type="radio" value="是" v-model="jobInfo.economicDifficulties"> 是
                 </label>
                 <label>
-                    <input type="radio" value="否" v-model="economicDifficulties"> 否
+                    <input type="radio" value="否" v-model="jobInfo.economicDifficulties"> 否
                 </label>
             </td>
           </tr>
@@ -200,11 +201,11 @@
             <th style="width: 20%;">上学期成绩情况：</th>
             <td colspan="3">
                 <label>必修科目数：</label>
-                <input type="text" v-model="requireSubjectsNumber">
+                <input type="text" v-model="jobInfo.requireSubjectsNumber">
                 <label>平均分：</label>
-                <input type="text" v-model="averageScore">
+                <input type="text" v-model="jobInfo.averageScore">
                 <label>补考科目数：</label>
-                <input type="text" v-model="makeupSubjectNumber">
+                <input type="text" v-model="jobInfo.makeupSubjectNumber">
             </td>
           </tr>
           <tr>
@@ -242,9 +243,76 @@ export default {
         path:"/",
       })
     },
+    async goCancel (){
+      try {
+        const response = await axios.delete('http://localhost:8866/ptjs/applianceList/apply/unSubmit', {
+          params: {
+            username: this.$route.query.username,
+            jobId: this.$route.query.jobId
+          }
+        })
+        this.goApply()
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async goModify () {
+      try {
+        const url = 'http://localhost:8866/ptjs/applianceList/apply/modify'
+        const response = await axios.post(url,{
+            username: this.$route.query.username,
+            jobId: this.$route.query.jobId,
+            name:this.jobInfo.name,
+            major:this.jobInfo.major,
+            classes:this.jobInfo.classes,
+            bankCardNumber:this.jobInfo.bankCardNumber,
+            phone:this.jobInfo.phone,
+            poorSymbol:this.jobInfo.poorSymbol,
+            classNumber:this.jobInfo.classNumber,
+            average:this.jobInfo.average,
+            special:this.jobInfo.special,
+            applianceReason:this.jobInfo.applianceReason,
+            academicYear:this.jobInfo.academicYear,
+            unit:this.jobInfo.unit,
+            positionTitle:this.jobInfo.positionTitle,
+            positionType:this.jobInfo.positionType,
+            positionLevel:this.jobInfo.positionLevel,
+            startWorkDate:this.jobInfo.startWorkDate,
+            endWorkDate:this.jobInfo.endWorkDate,
+            workingWeek:this.jobInfo.workingWeek,
+            salary:this.jobInfo.salary,
+            teacher:this.jobInfo.teacher,
+            budget:this.jobInfo.budget,
+            numberLastYear:this.jobInfo.numberLastYear,
+            applyMonth:this.jobInfo.applyMonth,
+            demandMonth:this.jobInfo.demandMonth,
+            hireType:this.jobInfo.hireType,
+            workPlace:this.jobInfo.workPlace,
+            positionDuty:this.jobInfo.positionDuty,
+            positionDemand:this.jobInfo.positionDemand,
+            requireNumber:this.jobInfo.requireNumber,
+            applyNumber:this.jobInfo.applyNumber,
+            passNumber:this.jobInfo.passNumber,
+            reviewStatus:this.jobInfo.reviewStatus,
+            reviewDateTime:this.jobInfo.reviewDateTime,
+            reviewReason:this.jobInfo.reviewReason
+          })
+        this.goApply()
+      } catch (error) {
+        console.log('Error fetching data:', error)
+      }
+    },
     goTotal () {
       this.$router.push({
         path:"/student/home",
+        query:{
+          username:this.$route.query.username
+        }
+      })
+    },
+    goStatistics () {
+      this.$router.push({
+        path:"/statistics",
         query:{
           username:this.$route.query.username
         }
@@ -259,13 +327,7 @@ export default {
       })
     },
     goJobDetail () {
-      this.$router.push({
-        path:"/job/detail",
-        query:{
-          username:this.$route.query.username,
-          id:this.$route.query.jobId
-        }
-      })
+      this.goApply()
     },
     goPerson () {
       this.$router.push({
