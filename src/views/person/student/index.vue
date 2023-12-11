@@ -33,9 +33,10 @@
       @close="handleClose">
         <el-menu-item-group>
           <template slot="页面汇总"></template>
-          <el-menu-item index="1-1" @click="goTotal">岗位列表</el-menu-item>
-          <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
-          <el-menu-item index="1-3" >个人中心</el-menu-item>
+          <el-menu-item index="1-1" @click="goStatistics">首页</el-menu-item>
+          <el-menu-item index="1-2" @click="goTotal">岗位列表</el-menu-item>
+          <el-menu-item index="1-3" @click="goApply">申请列表</el-menu-item>
+          <el-menu-item index="1-4" >个人中心</el-menu-item>
 
         </el-menu-item-group>
     </el-menu>
@@ -112,30 +113,37 @@ export default {
     },
     async goModify () {
       try {
-        const url = `http://localhost:8866/ptjs/user`;
-        const response = await axios.put(url,this.formLabelAlign);
-        this.$message.success("修改成功")
+        // const url = `http://localhost:8866/ptjs/user`;
+        // const response = await axios.put(url,this.formLabelAlign);
+        this.$message.success('修改成功')
         console.log(this.formLabelAlign)
       } catch (error) {
         console.error(error)
       }
     },
+    goStatistics () {
+      this.$router.push({
+        path: '/statistics',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
     goTotal () {
       this.$router.push({
-        path:"/student/home",
-        query:{
-          username:this.$route.query.username
+        path: '/student/home',
+        query: {
+          username: this.$route.query.username
         }
       })
     },
     goApply () {
       this.$router.push({
-        path:"/student/apply",
-        query:{
-          username:this.$route.query.username
+        path: '/student/apply',
+        query: {
+          username: this.$route.query.username
         }
       })
-  
     },
     handlePhoneIconClick () {
       const h = this.$createElement
@@ -152,8 +160,8 @@ export default {
     },
     async fetchData () {
       try {
-        const url = `http://localhost:8866/ptjs/user/${this.$route.query.username}`;
-        const response = await axios.get(url);
+        const url = `http://localhost:8866/ptjs/user/${this.$route.query.username}`
+        const response = await axios.get(url)
         this.formLabelAlign = response.data.data
         console.log(this.formLabelAlign)
       } catch (error) {

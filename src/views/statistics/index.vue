@@ -11,7 +11,7 @@
   </div>
   <el-breadcrumb separator="/" style="padding-left: 10px;">
   <el-breadcrumb-item></el-breadcrumb-item>
-  <el-breadcrumb-item>学生-岗位列表</el-breadcrumb-item>
+  <el-breadcrumb-item>首页</el-breadcrumb-item>
   </el-breadcrumb>
   <div class="right-align">
     <el-button type="text" @click="handlePhoneIconClick">
@@ -33,9 +33,10 @@
       @close="handleClose">
         <el-menu-item-group>
           <template slot="页面汇总"></template>
-          <el-menu-item index="1-1" @click="goTotal">岗位列表</el-menu-item>
-          <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
-          <el-menu-item index="1-3" @click="goPerson">个人中心</el-menu-item>
+          <el-menu-item index="1-1" >首页</el-menu-item>
+          <el-menu-item index="1-2" @click="goTotal">岗位列表</el-menu-item>
+          <el-menu-item index="1-3" @click="goApply">申请列表</el-menu-item>
+          <el-menu-item index="1-4" @click="goPerson">个人中心</el-menu-item>
         </el-menu-item-group>
     </el-menu>
     </div>
@@ -67,6 +68,9 @@ import echarts from 'echarts'
 export default {
   name: 'statisticsIndex',
   methods: {
+    goBack () {
+      this.$router.push('/')
+    },
     goTotal () {
       this.$router.push({
         path: '/student/home',
