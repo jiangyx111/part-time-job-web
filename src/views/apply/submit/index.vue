@@ -129,48 +129,48 @@
           </tr>
           <tr>
             <th style="width: 20%;">学号：</th>
-            <td style="width: 30%;">{{ jobInfo.classNumber}}</td>
+            <td style="width: 30%;">{{ jobInfo.schoolId}}</td>
             <th style="width: 20%;">姓名：</th>
             <td style="width: 30%;">{{ jobInfo.name}}</td>
           </tr>
           <tr>
             <th style="width: 20%;">院系：</th>
-            <td style="width: 30%;"></td>
+            <td style="width: 30%;">{{ jobInfo.faculty}}</td>
             <th style="width: 20%;">专业：</th>
             <td style="width: 30%;">{{ jobInfo.major}}</td>
           </tr>
           <tr>
             <th style="width: 20%;">年级：</th>
-            <td style="width: 30%;"></td>
+            <td style="width: 30%;">{{ jobInfo.grade}}</td>
             <th style="width: 20%;">班级：</th>
             <td style="width: 30%;">{{ jobInfo.classes}}</td>
           </tr>
           <tr>
             <th style="width: 20%;">联系电话：</th>
             <td style="width: 30%;">
-                <input type="text" v-model="phoneNumber">
-                <span class="required-indicator" v-show="!phoneNumber"> *</span>
+                <input type="text" v-model="jobInfo.phone">
+                <span class="required-indicator" v-show="!jobInfo.phone"> *</span>
             </td>
             <th style="width: 20%;">银行卡号：</th>
             <td style="width: 30%;">
-                <input type="text" v-model="bankCardNumber">
-                <span class="required-indicator" v-show="!phoneNumber"> *</span>
+                <input type="text" v-model="jobInfo.bankCardNumber">
+                <span class="required-indicator" v-show="!jobInfo.bankCardNumber"> *</span>
             </td>
           </tr>
           <tr>
             <th style="width: 20%;">QQ：</th>
             <td colspan="3">
-                <input type="text" v-model="qqNumber">
+                <input type="text" v-model="jobInfo.qq">
             </td>
           </tr>
           <tr>
             <th style="width: 20%;">是否认定为贫困生：</th>
             <td colspan="3">
                 <label>
-                    <input type="radio" value="是" v-model="economicDifficulties"> 是
+                    <input type="radio" value="0" label="0" v-model="jobInfo.poorSymbol"> 是
                 </label>
                 <label>
-                    <input type="radio" value="否" v-model="economicDifficulties"> 否
+                    <input type="radio" value="1" label="1" v-model="jobInfo.poorSymbol"> 否
                 </label>
             </td>
           </tr>
@@ -178,20 +178,23 @@
             <th style="width: 20%;">上学期成绩情况：</th>
             <td colspan="3">
                 <label>必修科目数：</label>
-                <input type="text" v-model="requireSubjectsNumber">
+                <input type="text" v-model="jobInfo.classNumber">
                 <label>平均分：</label>
-                <input type="text" v-model="averageScore">
-                <label>补考科目数：</label>
-                <input type="text" v-model="makeupSubjectNumber">
+                <input type="text" v-model="jobInfo.average">
+                
             </td>
           </tr>
           <tr>
             <th style="width: 20%;">有何特长：</th>
-            <td colspan="3"></td>
+            <td colspan="3">
+              <input type="text" v-model="jobInfo.special">
+            </td>
           </tr>
           <tr>
             <th style="width: 20%;">申请理由：</th>
-            <td colspan="3"></td>
+            <td colspan="3">
+              <input type="text" v-model="jobInfo.applianceReason">
+            </td>
           </tr>
         </tbody>
       </table>
@@ -285,7 +288,11 @@ export default {
             passNumber:this.jobInfo.passNumber,
             reviewStatus:this.jobInfo.reviewStatus,
             reviewDateTime:this.jobInfo.reviewDateTime,
-            reviewReason:this.jobInfo.reviewReason
+            reviewReason:this.jobInfo.reviewReason,
+            schoolId:this.jobInfo.schoolId,
+            faculty:this.jobInfo.faculty,
+            grade:this.jobInfo.grade,
+            qq:this.jobInfo.qq
         })
         Message.success("申请成功");
         this.goTotal()
@@ -326,7 +333,7 @@ export default {
     async fetchData () {
       try {
         console.log('created')
-        const url = 'http://localhost:8866/ptjs/applianceList/apply/detail'
+        const url = 'http://localhost:8866/ptjs/applianceList/apply/newDetail'
         console.log(url)
         const response = await axios.get(url,{
           params: {
@@ -373,6 +380,9 @@ export default {
 
 .red-text{
   color: red;
+}
+.ApplyDetail{
+  width: 100%;
 }
 .home {
   display: flex;

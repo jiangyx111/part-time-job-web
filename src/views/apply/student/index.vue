@@ -83,16 +83,16 @@
         <template slot-scope="{ row }">{{ row.academicYear }}</template>
       </el-table-column>
       <el-table-column
-        prop="unit"
-        label="在岗状态">
-        <template slot-scope="{ row }">{{ row.onDutyStatus }}</template>
-      </el-table-column>
-      <el-table-column
-        prop="unit"
+
+        prop="reviewStatus"
         label="审核状态">
-<!--        <template slot-scope="{ row }">{{ row.reviewStatus }}</template>-->
+        <template  slot-scope="{ row }">
+        <span class="red-text">{{ row.reviewStatus == 0 ? "未审核": row.reviewStatus == 1 ? "审核通过": "审核失败"}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="onDutyStatus" label="在岗状态" class="red-text">
         <template slot-scope="{ row }">
-          <span class="red-text">{{ row.reviewStatus }}</span>
+          <span class="red-text"> {{ row.onDutyStatus == 0 ? "未在岗": "已在岗"}}</span>
         </template>
       </el-table-column>
       <el-table-column

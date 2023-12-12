@@ -62,6 +62,18 @@
          <el-form-item label="联系电话" style="width: 70%;">
            <el-input v-model="formLabelAlign.phone"></el-input>
          </el-form-item>
+         <el-form-item label="学号" style="width: 70%;">
+           <el-input v-model="formLabelAlign.schoolId"></el-input>
+         </el-form-item>
+         <el-form-item label="院系" style="width: 70%;">
+           <el-input v-model="formLabelAlign.faculty"></el-input>
+         </el-form-item>
+         <el-form-item label="年级" style="width: 70%;">
+           <el-input v-model="formLabelAlign.grade"></el-input>
+         </el-form-item>
+         <el-form-item label="QQ" style="width: 70%;">
+           <el-input v-model="formLabelAlign.qq"></el-input>
+         </el-form-item>
          <el-form-item label="贫困生" style="width: 70%;">
           <el-select v-model="formLabelAlign.poorSymbol" placeholder="请选择">
             <el-option label="是" :value="0"></el-option>
@@ -95,7 +107,11 @@ export default {
         classes: '',
         bankCardNumber: '',
         phone: '',
-        poorSymbol: ''
+        poorSymbol: '',
+        grade:'',
+        qq:'',
+        schoolId:'',
+        faculty:''
       },
       data: {
         list: []
@@ -113,8 +129,8 @@ export default {
     },
     async goModify () {
       try {
-        // const url = `http://localhost:8866/ptjs/user`;
-        // const response = await axios.put(url,this.formLabelAlign);
+        const url = `http://localhost:8866/ptjs/user`;
+        const response = await axios.put(url,this.formLabelAlign);
         this.$message.success('修改成功')
         console.log(this.formLabelAlign)
       } catch (error) {

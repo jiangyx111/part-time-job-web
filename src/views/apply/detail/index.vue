@@ -55,7 +55,7 @@
             <th colspan="4" style="text-align: left;">审批情况</th>
           </tr>
           <tr>
-            <th style="width: 20%;">用人单位审批状态：</th>
+            <th style="width: 20%;">审批状态：</th>
             <td style="width: 30%;">{{ jobInfo.reviewStatus}}</td>
             <th style="width: 20%;">审批时间：</th>
             <td style="width: 30%;">{{ jobInfo.reviewDateTime}}</td>
@@ -67,10 +67,6 @@
           <tr>
             <th style="width: 20%;">审批理由：</th>
             <td colspan="3">{{ jobInfo.reviewReason}}</td>
-          </tr>
-          <tr>
-            <th style="width: 20%;">当前审核状态：</th>
-            <td colspan="3"></td>
           </tr>
           <tr>
             <th colspan="4" style="text-align: left;">申请岗位信息</th>
@@ -152,48 +148,48 @@
           </tr>
           <tr>
             <th style="width: 20%;">学号：</th>
-            <td style="width: 30%;">{{ jobInfo.classNumber}}</td>
+            <td style="width: 30%;">{{ jobInfo.schoolId}}</td>
             <th style="width: 20%;">姓名：</th>
             <td style="width: 30%;">{{ jobInfo.name}}</td>
           </tr>
           <tr>
             <th style="width: 20%;">院系：</th>
-            <td style="width: 30%;"></td>
+            <td style="width: 30%;">{{ jobInfo.faculty}}</td>
             <th style="width: 20%;">专业：</th>
             <td style="width: 30%;">{{ jobInfo.major}}</td>
           </tr>
           <tr>
             <th style="width: 20%;">年级：</th>
-            <td style="width: 30%;"></td>
+            <td style="width: 30%;">{{ jobInfo.grade}}</td>
             <th style="width: 20%;">班级：</th>
             <td style="width: 30%;">{{ jobInfo.classes}}</td>
           </tr>
           <tr>
             <th style="width: 20%;">联系电话：</th>
             <td style="width: 30%;">
-                <input type="text" v-model="jobInfo.phoneNumber">
-                <span class="required-indicator" v-show="!phoneNumber"> *</span>
+                <input type="text" v-model="jobInfo.phone">
+                <span class="required-indicator" v-show="!jobInfo.phone"> *</span>
             </td>
             <th style="width: 20%;">银行卡号：</th>
             <td style="width: 30%;">
                 <input type="text" v-model="jobInfo.bankCardNumber">
-                <span class="required-indicator" v-show="!phoneNumber"> *</span>
+                <span class="required-indicator" v-show="!jobInfo.bankCardNumber"> *</span>
             </td>
           </tr>
           <tr>
             <th style="width: 20%;">QQ：</th>
             <td colspan="3">
-                <input type="text" v-model="jobInfo.qqNumber">
+                <input type="text" v-model="jobInfo.qq">
             </td>
           </tr>
           <tr>
             <th style="width: 20%;">是否认定为贫困生：</th>
             <td colspan="3">
                 <label>
-                    <input type="radio" value="是" v-model="jobInfo.economicDifficulties"> 是
+                    <input type="radio" value="0" label="0" v-model="jobInfo.poorSymbol"> 是
                 </label>
                 <label>
-                    <input type="radio" value="否" v-model="jobInfo.economicDifficulties"> 否
+                    <input type="radio" value="1" label="1" v-model="jobInfo.poorSymbol"> 否
                 </label>
             </td>
           </tr>
@@ -201,20 +197,23 @@
             <th style="width: 20%;">上学期成绩情况：</th>
             <td colspan="3">
                 <label>必修科目数：</label>
-                <input type="text" v-model="jobInfo.requireSubjectsNumber">
+                <input type="text" v-model="jobInfo.classNumber">
                 <label>平均分：</label>
-                <input type="text" v-model="jobInfo.averageScore">
-                <label>补考科目数：</label>
-                <input type="text" v-model="jobInfo.makeupSubjectNumber">
+                <input type="text" v-model="jobInfo.average">
+                
             </td>
           </tr>
           <tr>
             <th style="width: 20%;">有何特长：</th>
-            <td colspan="3"></td>
+            <td colspan="3">
+              <input type="text" v-model="jobInfo.special">
+            </td>
           </tr>
           <tr>
             <th style="width: 20%;">申请理由：</th>
-            <td colspan="3"></td>
+            <td colspan="3">
+              <input type="text" v-model="jobInfo.applianceReason">
+            </td>
           </tr>
         </tbody>
       </table>
@@ -295,7 +294,11 @@ export default {
             passNumber:this.jobInfo.passNumber,
             reviewStatus:this.jobInfo.reviewStatus,
             reviewDateTime:this.jobInfo.reviewDateTime,
-            reviewReason:this.jobInfo.reviewReason
+            reviewReason:this.jobInfo.reviewReason,
+            schoolId:this.jobInfo.schoolId,
+            faculty:this.jobInfo.faculty,
+            grade:this.jobInfo.grade,
+            qq:this.jobInfo.qq
           })
         this.goApply()
       } catch (error) {
@@ -470,5 +473,8 @@ export default {
     display: flex;
   align-items: center;
   justify-content: center;
+  }
+  .ApplyDetail{
+    width: 100%;
   }
 </style>
