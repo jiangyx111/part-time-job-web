@@ -61,6 +61,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
+        <el-button type="primary" @click="Export">导出</el-button>
       </el-form-item>
     </el-form>
 
@@ -260,8 +261,39 @@ export default {
         console.error(error)
       }
     },
+    async fetchExcel () {
+      try {
+        const response = await axios.get('http://localhost:8866/ptjs/job/export', {
+          responseType: 'arraybuffer' // 指定获取的数据类型为arraybuffer
+        })
+
+        // 处理从后端获取的数据，设置type值表示blob是一个Excel文件(XLSX)
+        const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' })
+
+        // 创建一个链接并指向可下载的Excel文件
+        const url = window.URL.createObjectURL(blob)
+
+        // 创建一个a标签并设置相关属性用于下载
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'job_data.xlsx'
+
+        // 将a标签添加到文档中并触发点击事件
+        document.body.appendChild(a)
+        a.click()
+
+        // 下载完成后移除a标签和URL对象
+        window.URL.revokeObjectURL(url)
+        document.body.removeChild(a)
+      } catch (error) {
+        console.error(error)
+      }
+    },
     onSubmit () {
       this.fetchData() // 调用 fetchData 方法获取数据
+    },
+    Export () {
+      this.fetchExcel()
     },
     // 每页条数改变时触发 选择一页显示多少行
     handleSizeChange (val) {
