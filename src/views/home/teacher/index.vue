@@ -1,17 +1,17 @@
 <template>
   <el-container>
     <el-header class="header">
-      <div class="header-content">
-        <div class="top-left">
-          <img src="./logo.png" alt="logo" style="width: 80px;">
-          <span class="title">
-            勤工助学管理系统
-          </span>
-        </div>
+    <div class="header-content">
+      <div class="top-left">
+      <img src="./logo.png" alt="logo" style="width: 80px;">
+      <span class="title">
+      勤工助学管理系统
+      </span>
+      </div>
       </div>
       <el-breadcrumb separator="/" style="padding-left: 10px;">
-        <el-breadcrumb-item></el-breadcrumb-item>
-        <el-breadcrumb-item>教师-岗位列表</el-breadcrumb-item>
+      <el-breadcrumb-item></el-breadcrumb-item>
+      <el-breadcrumb-item>教师-岗位列表</el-breadcrumb-item>
       </el-breadcrumb>
       <div class="right-align">
         <el-button type="text" @click="handlePhoneIconClick">
@@ -20,7 +20,7 @@
         <el-button type="text" @click="handleSwitchIconClick">
           <i class="el-icon-switch-button" style="padding-right: 20px;"></i>
         </el-button>
-        <el-button type="primary" class="back" @click="goBack">退出登录</el-button>
+          <el-button type="primary" class="back" @click="goBack">退出登录</el-button>
       </div>
     </el-header>
     <el-container>
@@ -34,8 +34,9 @@
           >
             <el-menu-item-group>
               <template slot="页面汇总"></template>
-              <el-menu-item index="1-1">岗位列表</el-menu-item>
-              <el-menu-item index="1-2" @click="goApply">申请列表</el-menu-item>
+              <el-menu-item index="1-1" @click="goStatistics">首页</el-menu-item>
+              <el-menu-item index="1-2" @click="goList">岗位列表</el-menu-item>
+              <el-menu-item index="1-3" @click="goApply">申请列表</el-menu-item>
             </el-menu-item-group>
           </el-menu>
         </div>
@@ -136,13 +137,14 @@
 </template>
 
 <script>
-
+// import echarts from 'echarts'
+import axios from 'axios'
 export default {
   created () {
     this.fetchData()
+    console.log(this.$route.query.username)
     this.fetchUnit()
   },
- 
   name: 'HomeIndex',
   data () {
     return {
@@ -171,14 +173,20 @@ export default {
     }
   },
   methods: {
-    
     goBack () {
       this.$router.push('/')
     },
     goApply () {
-      this.$router.push('/student/apply')
+      this.$router.push('/teacher/apply')
     },
-   
+    goStatistics () {
+      this.$router.push({
+        path: '/statistics2',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
     handlePhoneIconClick () {
       const h = this.$createElement
 
@@ -235,22 +243,29 @@ export default {
         console.error(error)
       }
     },
-    fetchUnit () {
-      axios
-        .get('/api/units')
-        .then(response => {
-          console.log(response.data)
-          this.formInline.unitOptions = response.data
-        })
-        .catch(error => {
-          console.log(error)
-        })
+    async fetchUnit () {
+      try {
+        // 发送请求获取下拉框选项数据
+        const response = await axios.get('http://localhost:8866/ptjs/job/unit')
+        console.log(response.data.data)
+        this.formInline.unitOptions = ['', ...Array.from(new Set(response.data.data))]
+        console.log(this.formInline.unitOptions)
+        // 其他代码...
+      } catch (error) {
+        console.error(error)
+      }
     },
     onSubmit () {
       this.fetchData()
     },
-    showDetail (row) {
-      this.$router.push(`/teacher/detail/${row.id}`)
+    async showDetail (row) {
+      this.$router.push({
+        path: '/job/detail',
+        query: {
+          id: row.id,
+          username: this.$route.query.username
+        }
+      })
     },
     edit (row) {
       // 修改岗位的逻辑
@@ -258,40 +273,41 @@ export default {
     remove (row) {
       // 删除岗位的逻辑
     }
-   
+
   }
 }
 </script>
 
 <style scoped>
-.header {
-display: flex;
-justify-content: space-between;
-background-color: #545c64;
-padding: 0 20px;
-height: 64px;
+ .header {
+    height: 50px;
+    border-bottom: 2px solid rgb(233, 233, 233);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-
 .header-content {
-display: flex;
-justify-content: space-between;
-align-items: center;
+  display: flex;
+  align-items: center;
+  flex-direction: row; /* 将子元素水平排列 */
+  justify-content: space-between; /* 按钮最右显示 */
 }
-
+.header-content {
+  display: flex;
+  align-items: center;
+}
 .top-left {
 display: flex;
 align-items: center;
 }
 
-.title {
-color: #fff;
-font-size: 18px;
-margin-left: 10px;
-}
-
 .right-align {
-display: flex;
-align-items: center;
+  margin-left: auto;
 }
 
 .back {
@@ -302,21 +318,20 @@ margin-left: 20px;
 height: 100%;
 background: #f8f8f9;
 }
-
+.menu {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
 .el-menu-vertical-demo {
 height: 100%;
 }
 
-.el-aside {
-box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
-z-index: 100;
-}
-
 .home {
-background: white;
-height: 100%;
-width: 100%;
-padding-top: 20px;
+  background: white;
+  height: 100%;
+  width: 100%;
+  padding-top: 20px;
 }
 
 .select {
@@ -327,49 +342,6 @@ padding: 20px;
 margin-bottom: 20px;
 }
 
-.operation-button {
-margin-right: 5px;
-}
-
-.el-pagination {
-margin-top: 20px;
-text-align: right;
-}
-
-.el-table th.gutter {
-background-color: #f8f8f9;
-}
-
-.el-table-row {
-height: 50px;
-}
-
-.el-table__fixed-body-wrapper {
-overflow-y: auto;
-max-height: calc(100vh - 300px);
-}
-
-.el-table__empty-block .el-table__empty-text {
-margin-top: 30px;
-}
-
-.el-table .el-table__fixed-body-wrapper {
-padding-bottom: 50px;
-}
-
-.el-table th.gutter {
-padding-right: 0 !important;
-}
-
-.el-table .cell {
-overflow: hidden;
-white-space: nowrap;
-text-overflow: ellipsis;
-}
-
-.el-table .el-table__fixed-body-wrapper {
-padding-bottom: 50px;
-}
 .operation-buttons {
   display: flex;
 }
@@ -378,4 +350,9 @@ padding-bottom: 50px;
   flex: 1;
   margin-right: 5px;
 }
+.title{
+    font-size: 25px;
+    font-family: "微软雅黑";
+    margin-left: 20px;
+  }
 </style>

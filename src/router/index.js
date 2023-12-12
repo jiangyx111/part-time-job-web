@@ -10,6 +10,7 @@ import Detail from '@/views/detail/index'
 import ApplyDetail from '@/views/apply/detail/index'
 import Statistics from '@/views/statistics/index'
 import ApplySubmit from '@/views/apply/submit/index'
+import Statistics2 from '@/views/statistics2/index'
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,11 @@ const routes = [
     path: '/apply/submit',
     name: 'ApplySubmit',
     component: ApplySubmit
+  },
+  {
+    path: '/statistics2',
+    name: 'Statistics2',
+    component: Statistics2
   }
 ]
 

@@ -109,7 +109,8 @@ export default {
               // 执行登录成功后的操作，如跳转到其他页面
               Message.success(response.data.msg)
               this.$router.push({
-                path: '/teacher/home',
+                // path: '/teacher/home',
+                path: '/statistics2',
                 query: {
                   username: username
                 }
