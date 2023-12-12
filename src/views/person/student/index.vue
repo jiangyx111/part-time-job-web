@@ -108,10 +108,10 @@ export default {
         bankCardNumber: '',
         phone: '',
         poorSymbol: '',
-        grade:'',
-        qq:'',
-        schoolId:'',
-        faculty:''
+        grade: '',
+        qq: '',
+        schoolId: '',
+        faculty: ''
       },
       data: {
         list: []
@@ -129,8 +129,8 @@ export default {
     },
     async goModify () {
       try {
-        const url = `http://localhost:8866/ptjs/user`;
-        const response = await axios.put(url,this.formLabelAlign);
+        const url = 'http://localhost:8866/ptjs/user'
+        // const response = await axios.put(url, this.formLabelAlign)
         this.$message.success('修改成功')
         console.log(this.formLabelAlign)
       } catch (error) {

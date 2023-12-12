@@ -203,44 +203,44 @@ export default {
   },
 
   methods: {
-    goApplyDetail (){
+    goApplyDetail () {
       this.$router.push({
-        path:"/apply/submit",
-        query:{
-          username:this.$route.query.username,
-          jobId:this.$route.query.id
+        path: '/apply/submit',
+        query: {
+          username: this.$route.query.username,
+          jobId: this.$route.query.id
         }
       })
     },
     goBack () {
       this.$router.push({
-        path:"/student/home",
-        query:{
-          username:this.$route.query.username
+        path: '/student/home',
+        query: {
+          username: this.$route.query.username
         }
       })
     },
     goHome () {
       this.$router.push({
-        path:"/statistics",
-        query:{
-          username:this.$route.query.username
+        path: '/statistics',
+        query: {
+          username: this.$route.query.username
         }
       })
     },
     goTotal () {
       this.$router.push({
-        path:"/student/home",
-        query:{
-          username:this.$route.query.username,
-          jobId:this.$route.query.id
+        path: '/student/home',
+        query: {
+          username: this.$route.query.username,
+          jobId: this.$route.query.id
         }
       })
     },
     async fetchData () {
       try {
-        console.log("created")
-        const url=`http://localhost:8866/ptjs/job/${this.$route.query.id}`
+        console.log('created')
+        const url = `http://localhost:8866/ptjs/job/${this.$route.query.id}`
         console.log(url)
         const response = await axios.get(url)
         this.jobInfo = response.data.data
@@ -250,17 +250,17 @@ export default {
     },
     goApply () {
       this.$router.push({
-        path:"/student/apply",
-        query:{
-          username:this.$route.query.username
+        path: '/student/apply',
+        query: {
+          username: this.$route.query.username
         }
       })
     },
     goPerson () {
       this.$router.push({
-        path:"/student/person",
-        query:{
-          username:this.$route.query.username
+        path: '/student/person',
+        query: {
+          username: this.$route.query.username
         }
       })
     },
@@ -277,7 +277,7 @@ export default {
     },
     handleSwitchIconClick () {
       this.goBack()
-    },
+    }
   }
 }
 </script>
@@ -386,4 +386,3 @@ export default {
   text-align: left;
 }
 </style>
-
