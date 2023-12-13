@@ -42,6 +42,7 @@
     </el-aside>
       <el-main>
         <div class="home">
+          <el-button type="primary" @click="submit" style="margin-left: 20px;margin-bottom: 20px;">添加</el-button>
   <!-- 表格 -->
   <div class="detail">
       <div class="message">
@@ -114,7 +115,7 @@
       <th>上学年岗位数：</th>
       <td><input type="text" v-model="numberLastYear" /></td>
       <th>申请月数：</th>
-      <td><input type="text" v-model="applyMonth" /></td>
+      <td><input type="text" v-model="applicantMonth" /></td>
     </tr>
     <tr>
       <th>需求月份：</th>
@@ -171,7 +172,7 @@
     </tr>
   </tbody>
 </table>
-<el-button type="primary" @click="submit">添加</el-button>
+
       </div>
     </div>
       </div>
@@ -181,6 +182,7 @@
   </template>
   <script>
   import axios from 'axios'
+  import { Message } from 'element-ui'
   export default {
     name: 'HomeIndex',
     data () {
@@ -220,16 +222,45 @@
         positionNature: this.positionNature,
         positionType: this.positionType,
         requireNumber: this.requireNumber,
-        applicantNumber: this.applicantNumber,
-        jobNumber: this.jobNumber,
+      //  applicantNumber: this.applicantNumber,
+        //jobNumber: this.jobNumber,
         academicYear: this.academicYear,
-        unit: this.unit
+        unit: this.unit,
+        headPhone:this.headPhone,
+        requireNumber: this.requireNumber,
+        workingWeek: this.workingWeek,
+        startWorkDate: this.startWorkDate,
+        endWorkDate: this.endWorkDate,
+        positionNature: this.positionNature,
+        salary: this.salary,
+        positionType: this.positionType,
+        positionLevel: this.positionLevel,
+        teacher: this.teacher,
+        budget: this.budget,
+        numberLastYear: this.numberLastYear,
+        applicantMonth: this.applicantMonth,
+        demandMonth: this.demandMonth,
+        hireType: this.hireType,
+        workPlace: this.workPlace,
+        positionDuty: this.positionDuty,
+        passNumber: this.passNumber,
+        positionDemand: this.positionDemand,
+        startPublicDate: this.startPublicDate,
+        endPublicDate: this.endPublicDate,
+        genderRestriction: this.genderRestriction,
+        gradeRestriction: this.gradeRestriction,
+        poorRestriction: this.poorRestriction,
+        academyRestriction: this.academyRestriction,
+        majorRestriction: this.majorRestriction,
+
       };
 
       axios.post('http://localhost:8866/ptjs/job', postData)
         .then(response => {
           // 处理成功响应
           console.log(response.data);
+          Message.success("新增成功")
+          this.goList()
         })
         .catch(error => {
           // 处理错误

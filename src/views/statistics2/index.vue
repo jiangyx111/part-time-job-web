@@ -35,7 +35,7 @@
             <template slot="页面汇总"></template>
             <el-menu-item index="1-1">首页</el-menu-item>
             <el-menu-item index="1-2" @click="goTotal">岗位列表</el-menu-item>
-            <el-menu-item index="1-3" @click="goApply">申请列表</el-menu-item>
+            <el-menu-item index="1-3" @click="goReview">审批列表</el-menu-item>
           </el-menu-item-group>
       </el-menu>
       </div>
@@ -79,8 +79,13 @@ export default {
         }
       })
     },
-    goApply () {
-      this.$router.push('/teacher/apply')
+    goReview () {
+      this.$router.push({
+        path: '/teacher/review',
+        query: {
+          username: this.$route.query.username
+        }
+      })
     },
     goStatistics () {
       this.$router.push({
