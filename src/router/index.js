@@ -11,6 +11,7 @@ import ApplyDetail from '@/views/apply/detail/index'
 import Statistics from '@/views/statistics/index'
 import ApplySubmit from '@/views/apply/submit/index'
 import Statistics2 from '@/views/statistics2/index'
+import New from '@/views/new/index'
 
 Vue.use(VueRouter)
 
@@ -73,7 +74,12 @@ const routes = [
     path: '/statistics2',
     name: 'Statistics2',
     component: Statistics2
-  }
+  },
+  {
+    path: '/teacher/new',
+    name: 'New',
+    component: New
+ }
 ]
 
 const router = new VueRouter({

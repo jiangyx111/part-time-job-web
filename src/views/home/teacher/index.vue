@@ -173,11 +173,24 @@ export default {
     }
   },
   methods: {
+    create () {
+      this.$router.push({
+        path: '/teacher/new/',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
     goBack () {
       this.$router.push('/')
     },
     goApply () {
-      this.$router.push('/teacher/apply')
+      this.$router.push({
+        path: '/teacher/apply',
+        query: {
+          username: this.$route.query.username
+        }
+      })
     },
     goStatistics () {
       this.$router.push({
@@ -270,10 +283,21 @@ export default {
     edit (row) {
       // 修改岗位的逻辑
     },
-    remove (row) {
-      // 删除岗位的逻辑
+    remove(row) {
+    const url = `http://localhost:8866/ptjs/job/${row.id}`;
+    axios.delete(url)
+    .then(response => {
+      // 处理成功的响应
+      console.log('数据删除成功:', response.data);
+      // 在数据删除成功后刷新列表
+      this.fetchData();
+      })
+    .catch(error => {
+      // 处理错误
+      console.error('删除数据时出错:', error);
+      // 执行任何错误处理或显示错误消息
+      });
     }
-
   }
 }
 </script>
