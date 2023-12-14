@@ -282,6 +282,13 @@ export default {
     },
     edit (row) {
       // 修改岗位的逻辑
+      this.$router.push({
+        path: '/teacher/edit',
+        query: {
+          id: row.id,
+          username: this.$route.query.username
+        }
+      })
     },
     remove(row) {
     const url = `http://localhost:8866/ptjs/job/${row.id}`;

@@ -266,7 +266,7 @@
           // 处理错误
           console.error(error);
         });
-    },    
+    },  
       goList () {
         this.$router.push({
           path: '/teacher/home',
