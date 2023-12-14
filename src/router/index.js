@@ -16,6 +16,7 @@ import Review from '@/views/review/index'
 import ReviewDetail from '@/views/review/detail/index'
 import New from '@/views/new/index'
 import Edit from '@/views/edit/index'
+import Comment from '@/views/comment/index'
 
 Vue.use(VueRouter)
 
@@ -102,6 +103,10 @@ const routes = [
   path: '/review/detail',
   name: 'ReviewDetail',
   component: ReviewDetail
+ },{
+  path: '/teacher/comment',
+  name: 'Comment',
+  component: Comment
  }
 ]
 

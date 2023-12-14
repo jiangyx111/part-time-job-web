@@ -36,6 +36,7 @@
             <el-menu-item index="1-1">首页</el-menu-item>
             <el-menu-item index="1-2" @click="goTotal">岗位列表</el-menu-item>
             <el-menu-item index="1-3" @click="goReview">审批列表</el-menu-item>
+            <el-menu-item index="1-4" @click="goComment">学生评分</el-menu-item>
           </el-menu-item-group>
       </el-menu>
       </div>
@@ -90,6 +91,14 @@ export default {
     goStatistics () {
       this.$router.push({
         path: '/statistics',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
+    goComment (){
+      this.$router.push({
+        path: 'teacher/comment',
         query: {
           username: this.$route.query.username
         }

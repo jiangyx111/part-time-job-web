@@ -11,7 +11,7 @@
   </div>
   <el-breadcrumb separator="/" style="padding-left: 10px;">
   <el-breadcrumb-item></el-breadcrumb-item>
-  <el-breadcrumb-item>教师-审批列表</el-breadcrumb-item>
+  <el-breadcrumb-item>教师-学生评分</el-breadcrumb-item>
   </el-breadcrumb>
   <div class="right-align">
     <el-button type="text" @click="handlePhoneIconClick">
@@ -42,32 +42,7 @@
     </div>
   </el-aside>
     <el-main>
-      <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item label="在岗状态">
-        <el-select v-model="formInline.onDutyStatus" placeholder="在岗状态">
-          <el-option
-          v-for="item in formInline.unitOptions1"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="审核状态">
-        <el-select v-model="formInline.reviewStatus" placeholder="审核状态">
-          <el-option
-          v-for="item in formInline.unitOptions2"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
         <el-button type="primary" @click="Export">导出</el-button>
-      </el-form-item>
-    </el-form>
 <!-- 表格 -->
     <el-table
       ref="multipleTable"
@@ -77,6 +52,11 @@
 
       style="width: 100%"
       @selection-change="handleSelectionChange">
+      <el-table-column
+        prop="name"
+        label="姓名">
+        <template slot-scope="{ row }">{{ row.name }}</template>
+      </el-table-column>
       <el-table-column
         prop="positionTitle"
         label="岗位名称">
@@ -92,11 +72,7 @@
         label="开始时间">
         <template slot-scope="{ row }">{{ row.startWorkDate }}</template>
       </el-table-column>
-      <el-table-column
-        prop="bankCardNumber"
-        label="银行卡号">
-        <template slot-scope="{ row }">{{ row.bankCardNumber }}</template>
-      </el-table-column>
+
       <el-table-column
         prop="phone"
         label="联系电话">
@@ -107,23 +83,20 @@
         label="学年">
         <template slot-scope="{ row }">{{ row.academicYear }}</template>
       </el-table-column>
+        <el-table-column prop="commentScore" label="评分">
+          <template slot-scope="{ row }">
+            <el-rate :value="row.commentScore" disabled ></el-rate>
+          </template>
+        </el-table-column>
       <el-table-column
-
-        prop="reviewStatus"
-        label="审核状态">
-        <template  slot-scope="{ row }">
-        <span class="red-text">{{ row.reviewStatus == 0 ? "未审核": row.reviewStatus == 1 ? "审核通过": "审核失败"}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="onDutyStatus" label="在岗状态" class="red-text">
-        <template slot-scope="{ row }">
-          <span class="red-text"> {{ row.onDutyStatus == 0 ? "未在岗": "已在岗"}}</span>
-        </template>
+        prop="comments"
+        label="评价">
+        <template slot-scope="{ row }">{{ row.comments }}</template>
       </el-table-column>
       <el-table-column
-        label="详情">
+        label="点评" >
         <template slot-scope="{ row }">
-        <el-button class="operation-button" type="primary" @click="showDetail(row)">详情</el-button>
+        <el-button class="operation-button" type="primary" @click="goComment(row)">点评</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -140,11 +113,34 @@
     </el-pagination>
     </div>
     </el-main>
+    <el-dialog
+      title="评价学生"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>
+        <div class="block">
+          <span class="demonstration" style="font-size: large;margin: 10px;">评分</span>
+          <el-rate
+            v-model="rate"
+            :colors="colors"
+            style="margin: 10px;">
+          </el-rate>
+        </div>
+      </span>
+      <span class="demonstration" style="font-size: large;margin: 10px;">评价</span>
+      <el-input v-model="input" placeholder="请输入内容" style="margin: 10px;"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="onComment">确 定</el-button>
+      </span>
+    </el-dialog>
   </el-container>
 </el-container>
 </template>
 <script>
 import axios from 'axios'
+import { Message } from 'element-ui'
 export default {
   created () {
     this.fetchData()
@@ -153,6 +149,7 @@ export default {
   data () {
     return {
       tabPosition: 'left',
+      dialogVisible: false,
       formInline: {
         unitOptions1: [
         {
@@ -180,7 +177,9 @@ export default {
       data: {
         list: []
       },
-      id: '',
+      idTemp:'',
+      input:'',
+      rate:'',
       positionTitle: '',
       positionType: '',
       startWorkDate: '',
@@ -192,7 +191,9 @@ export default {
       currentPage: '',
       pageNumber: 1,
       pageSize: 5,
-      totalCount: null
+      totalCount: null,
+      colors: ['#99A9BF', '#F7BA2A', '#FF9900'],  // 等同于 { 2: '#99A9BF', 4: { value: '#F7BA2A', excluded: true }, 5: '#FF9900' }
+      id:''
     }
   },
   methods: {
@@ -224,6 +225,7 @@ export default {
         }
       })
     },
+    
     goReview () {
       this.$router.push({
         path: '/teacher/review',
@@ -232,13 +234,13 @@ export default {
         }
       })
     },
-    goComment () {
-      this.$router.push({
-        path: '/teacher/comment',
-        query: {
-          username: this.$route.query.username
-        }
-      })
+    handleClose(done) {
+        this.dialogVisible=false;
+    },
+    goComment (row) {
+      this.idTemp=row.id,
+      console.log(row.id),
+      this.dialogVisible = true
     },
     handlePhoneIconClick () {
       const h = this.$createElement
@@ -253,8 +255,19 @@ export default {
     handleSwitchIconClick () {
       this.goBack()
     },
-    onSubmit () {
-      this.fetchData() // 调用 fetchData 方法获取数据
+    async onComment () {
+      try{
+        const response = await axios.post('http://localhost:8866/ptjs/applianceList/apply/modify', {
+          jobId : this.idTemp,
+          commentScore : this.rate,
+          comments : this.input
+        })
+        Message.success("评价成功")
+        this.dialogVisible=false;
+        this.fetchData();
+      } catch (error) {
+        console.error(error)
+      }
     },
     Export () {
       this.fetchExcel()
@@ -299,12 +312,10 @@ export default {
     },
     async fetchData () {
       try {
-        const response = await axios.get('http://localhost:8866/ptjs/applianceList/review', {
+        const response = await axios.get('http://localhost:8866/ptjs/applianceList/apply/comment', {
           params: {
             pageNumber: this.pageNumber,
             pageSize: this.pageSize,
-            reviewStatus:this.formInline.reviewStatus,
-            onDutyStatus:this.formInline.onDutyStatus
           }
         })
         console.log(response.data)

@@ -36,6 +36,7 @@
           <el-menu-item index="1-1" @click="goStatistics">首页</el-menu-item>
           <el-menu-item index="1-2" @click="goTotal">岗位列表</el-menu-item>
           <el-menu-item index="1-3" @click="goReview">审批列表</el-menu-item>
+          <el-menu-item index="1-3" @click="goComment">评分列表</el-menu-item>
         </el-menu-item-group>
     </el-menu>
     </div>
@@ -312,6 +313,14 @@ export default {
     goReview () {
       this.$router.push({
         path: '/teacher/review',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
+    goComment () {
+      this.$router.push({
+        path: '/teacher/comment',
         query: {
           username: this.$route.query.username
         }
