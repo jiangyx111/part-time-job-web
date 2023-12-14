@@ -7,6 +7,7 @@ import StudentPerson from '@/views/person/student/index'
 import Login from '@/views/login/index'
 import Register from '@/views/register/index'
 import Detail from '@/views/detail/index'
+import Detail_teacher from '@/views/detail/index_teacher'
 import ApplyDetail from '@/views/apply/detail/index'
 import Statistics from '@/views/statistics/index'
 import ApplySubmit from '@/views/apply/submit/index'
@@ -54,6 +55,11 @@ const routes = [
     component: Detail
   },
   {
+    path: '/job/detail_teacher',
+    name: 'Detail_teacher',
+    component: Detail_teacher
+  },
+  {
     path: '/apply/detail',
     name: 'ApplyDetail',
     component: ApplyDetail
@@ -88,7 +94,6 @@ const routes = [
   name: 'Edit',
   component: Edit
   }
- }
  ,{
     path: '/teacher/review',
     name: 'Review',

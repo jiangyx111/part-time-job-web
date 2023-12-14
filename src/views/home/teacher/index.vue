@@ -273,7 +273,7 @@ export default {
     },
     async showDetail (row) {
       this.$router.push({
-        path: '/job/detail',
+        path: '/job/detail_teacher',
         query: {
           id: row.id,
           username: this.$route.query.username
