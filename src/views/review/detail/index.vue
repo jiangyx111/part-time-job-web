@@ -11,7 +11,7 @@
   </div>
   <el-breadcrumb separator="/" style="padding-left: 10px;">
   <el-breadcrumb-item></el-breadcrumb-item>
-  <el-breadcrumb-item>学生-申请详情</el-breadcrumb-item>
+  <el-breadcrumb-item>教师-申请详情</el-breadcrumb-item>
   </el-breadcrumb>
   <div class="right-align">
     <el-button type="text" @click="handlePhoneIconClick">
@@ -45,7 +45,7 @@
 <!-- 表格 -->
 <div class="ApplyDetail">
     <el-button type="primary" class="goback el-button--small" @click="goJobDetail">返回</el-button>
-    <el-button type="primary" class="goback el-button--small" @click="goModify">审批</el-button>
+    <el-button type="primary" class="goback el-button--small" @click="Review">审批</el-button>
     <div class="message">
       <table class="table_style">
         <tbody>
@@ -54,17 +54,25 @@
           </tr>
           <tr>
             <th style="width: 20%;">审批状态：</th>
-            <td style="width: 30%;">{{ jobInfo.reviewStatus}}</td>
+            <td style="width: 30%;">        
+          <el-select v-model="jobInfo.reviewStatus" placeholder="审核状态">
+          <el-option
+          v-for="item in this.unitOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+          </el-option>
+        </el-select></td>
             <th style="width: 20%;">审批时间：</th>
             <td style="width: 30%;">{{ jobInfo.reviewDateTime}}</td>
           </tr>
           <tr>
             <th style="width: 20%;">审批人：</th>
-            <td colspan="3"></td>
+            <input style="width: 80%;" type="text" v-model="jobInfo.reviewPerson"> 
           </tr>
           <tr>
             <th style="width: 20%;">审批理由：</th>
-            <td colspan="3">{{ jobInfo.reviewReason}}</td>
+            <input style="width: 80%;" type="text" v-model="jobInfo.reviewReason"> 
           </tr>
           <tr>
             <th colspan="4" style="text-align: left;">申请岗位信息</th>
@@ -164,54 +172,28 @@
           </tr>
           <tr>
             <th style="width: 20%;">联系电话：</th>
-            <td style="width: 30%;">
-                <input type="text" v-model="jobInfo.phone">
-                <span class="required-indicator" v-show="!jobInfo.phone"> *</span>
-            </td>
+            <td style="width: 30%;">{{ jobInfo.phone}}</td>
+
             <th style="width: 20%;">银行卡号：</th>
-            <td style="width: 30%;">
-                <input type="text" v-model="jobInfo.bankCardNumber">
-                <span class="required-indicator" v-show="!jobInfo.bankCardNumber"> *</span>
-            </td>
+            <td style="width: 30%;">{{ jobInfo.bankCardNumber}}</td>
           </tr>
           <tr>
             <th style="width: 20%;">QQ：</th>
-            <td colspan="3">
-                <input type="text" v-model="jobInfo.qq">
-            </td>
+              <td style="width: 30%;">{{ jobInfo.qq }}</td>
+              <th style="width: 20%;">是否认定为贫困生：</th>
+            <td style="width: 30%;">{{ jobInfo.poorSymbol == 0 ? "是":"否"}}</td>
           </tr>
           <tr>
-            <th style="width: 20%;">是否认定为贫困生：</th>
-            <td colspan="3">
-                <label>
-                    <input type="radio" value="0" label="0" v-model="jobInfo.poorSymbol"> 是
-                </label>
-                <label>
-                    <input type="radio" value="1" label="1" v-model="jobInfo.poorSymbol"> 否
-                </label>
-            </td>
-          </tr>
-          <tr>
-            <th style="width: 20%;">上学期成绩情况：</th>
-            <td colspan="3">
-                <label>必修科目数：</label>
-                <input type="text" v-model="jobInfo.classNumber">
-                <label>平均分：</label>
-                <input type="text" v-model="jobInfo.average">
-
-            </td>
+             <th style="width: 20%;">上学期必修科目数：</th>       
+             <td style="width: 30%;">{{ jobInfo.classNumber }}</td>
+             <th style="width: 20%;">上学期平均分：</th>       
+             <td style="width: 30%;">{{ jobInfo.average }}</td>
           </tr>
           <tr>
             <th style="width: 20%;">有何特长：</th>
-            <td colspan="3">
-              <input type="text" v-model="jobInfo.special">
-            </td>
-          </tr>
-          <tr>
-            <th style="width: 20%;">申请理由：</th>
-            <td colspan="3">
-              <input type="text" v-model="jobInfo.applianceReason">
-            </td>
+              <td style="width: 30%;">{{ jobInfo.special }}</td>
+              <th style="width: 20%;">申请理由：</th>
+            <td style="width: 30%;">{{ jobInfo.applianceReason }}</td>
           </tr>
         </tbody>
       </table>
@@ -224,6 +206,7 @@
 </template>
 <script>
 import axios from 'axios'
+import { Message } from 'element-ui'
 export default {
   name: 'AppleDetailIndex',
   created () {
@@ -231,10 +214,17 @@ export default {
   },
   data () {
     return {
-      jobInfo: {}
-    }
-  },
-  methods: {
+      jobInfo: {
+
+        },
+        unitOptions:[
+           {value:0,label:"未审核"},
+           {value:1,label:"审核通过",},
+           {value:2,label:"审核失败",}    
+        ]
+      }
+    },
+    methods: {
     goBack () {
       this.$router.push({
         path: '/'
@@ -305,7 +295,7 @@ export default {
     },
     goTotal () {
       this.$router.push({
-        path: '/student/home',
+        path: '/teacher/home',
         query: {
           username: this.$route.query.username
         }
@@ -313,22 +303,22 @@ export default {
     },
     goStatistics () {
       this.$router.push({
-        path: '/statistics',
+        path: '/statistics2',
         query: {
           username: this.$route.query.username
         }
       })
     },
-    goApply () {
+    goReview () {
       this.$router.push({
-        path: '/student/apply',
+        path: '/teacher/review',
         query: {
           username: this.$route.query.username
         }
       })
     },
     goJobDetail () {
-      this.goApply()
+      this.goReview()
     },
     goPerson () {
       this.$router.push({
@@ -364,6 +354,58 @@ export default {
         this.jobInfo = response.data.data.data
       } catch (error) {
         console.log('Error fetching data:', error)
+      }
+    },
+    async Review () {
+      try {
+        const url = 'http://localhost:8866/ptjs/applianceList/apply/review'
+        const response = await axios.post(url, {
+          username: this.$route.query.username,
+          jobId: this.$route.query.jobId,
+          name: this.jobInfo.name,
+          major: this.jobInfo.major,
+          classes: this.jobInfo.classes,
+          bankCardNumber: this.jobInfo.bankCardNumber,
+          phone: this.jobInfo.phone,
+          poorSymbol: this.jobInfo.poorSymbol,
+          classNumber: this.jobInfo.classNumber,
+          average: this.jobInfo.average,
+          special: this.jobInfo.special,
+          applianceReason: this.jobInfo.applianceReason,
+          academicYear: this.jobInfo.academicYear,
+          unit: this.jobInfo.unit,
+          positionTitle: this.jobInfo.positionTitle,
+          positionType: this.jobInfo.positionType,
+          positionLevel: this.jobInfo.positionLevel,
+          startWorkDate: this.jobInfo.startWorkDate,
+          endWorkDate: this.jobInfo.endWorkDate,
+          workingWeek: this.jobInfo.workingWeek,
+          salary: this.jobInfo.salary,
+          teacher: this.jobInfo.teacher,
+          budget: this.jobInfo.budget,
+          numberLastYear: this.jobInfo.numberLastYear,
+          applyMonth: this.jobInfo.applyMonth,
+          demandMonth: this.jobInfo.demandMonth,
+          hireType: this.jobInfo.hireType,
+          workPlace: this.jobInfo.workPlace,
+          positionDuty: this.jobInfo.positionDuty,
+          positionDemand: this.jobInfo.positionDemand,
+          requireNumber: this.jobInfo.requireNumber,
+          applyNumber: this.jobInfo.applyNumber,
+          passNumber: this.jobInfo.passNumber,
+          reviewStatus: this.jobInfo.reviewStatus,
+          reviewDateTime: this.jobInfo.reviewDateTime,
+          reviewReason: this.jobInfo.reviewReason,
+          reviewPerson: this.jobInfo.reviewPerson,
+          schoolId: this.jobInfo.schoolId,
+          faculty: this.jobInfo.faculty,
+          grade: this.jobInfo.grade,
+          qq: this.jobInfo.qq
+        })
+        Message.success("审核完毕"),
+        this.goReview()
+      } catch (error) {
+        Message.error("审核失败")
       }
     }
   }

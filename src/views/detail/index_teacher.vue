@@ -44,8 +44,7 @@
         <div class="home">
   <!-- 表格 -->
   <div class="detail">
-      <el-button type="primary" class="goback el-button--small" @click="goBack">返回</el-button>
-      <el-button type="primary" class="goapply el-button--small" @click="goApplyDetail">申请</el-button>
+      <el-button type="primary" class="goback el-button--small" @click="goList">返回</el-button>
       <div class="message">
         <table class="table_style">
           <tbody>
@@ -208,6 +207,14 @@
     goReview () {
       this.$router.push({
         path: '/teacher/review',
+        query: {
+          username: this.$route.query.username
+        }
+      })
+    },
+    goList () {
+      this.$router.push({
+        path: '/teacher/home',
         query: {
           username: this.$route.query.username
         }

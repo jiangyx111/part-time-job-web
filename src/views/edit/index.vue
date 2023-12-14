@@ -35,13 +35,14 @@
             <template slot="页面汇总"></template>
             <el-menu-item index="1-1" @click="goStatistics">首页</el-menu-item>
               <el-menu-item index="1-2" @click="goList">岗位列表</el-menu-item>
-              <el-menu-item index="1-3" @click="goApply">申请列表</el-menu-item>
+              <el-menu-item index="1-3" @click="goReview">审核列表</el-menu-item>
           </el-menu-item-group>
       </el-menu>
       </div>
     </el-aside>
       <el-main>
         <div class="home">
+          <el-button type="primary" @click="edit" style="margin-left: 20px;margin-bottom: 20px;">修改</el-button>
   <!-- 表格 -->
   <div class="detail">
       <div class="message">
@@ -171,7 +172,7 @@
     </tr>
   </tbody>
 </table>
-<el-button type="primary" @click="edit">修改</el-button>
+
       </div>
     </div>
       </div>
@@ -181,6 +182,7 @@
   </template>
   <script>
   import axios from 'axios'
+  import { Message } from 'element-ui'
   export default {
     name: 'HomeIndex',
     created () {
@@ -232,6 +234,8 @@
                 .then(response => {
                 // 处理成功响应
                 console.log(response.data);
+                Message.success("修改成功")
+                this.goList()
                 })
                 .catch(error => {
                 // 处理错误
@@ -302,9 +306,9 @@
           }
        })
       },
-      goApply () {
+      goReview () {
       this.$router.push({
-        path: '/teacher/apply',
+        path: '/teacher/review',
         query: {
           username: this.$route.query.username
           }

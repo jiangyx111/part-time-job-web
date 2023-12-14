@@ -139,6 +139,7 @@
 <script>
 // import echarts from 'echarts'
 import axios from 'axios'
+import { Message } from 'element-ui'
 export default {
   created () {
     this.fetchData()
@@ -298,6 +299,7 @@ export default {
       console.log('数据删除成功:', response.data);
       // 在数据删除成功后刷新列表
       this.fetchData();
+      Message.success("删除成功");
       })
     .catch(error => {
       // 处理错误
