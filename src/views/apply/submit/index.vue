@@ -196,33 +196,34 @@
               <input type="text" v-model="jobInfo.applianceReason">
             </td>
           </tr>
+      </tbody>
+      </table>
 
+      <table class="table_style">
+        <tbody>
             <tr>
-              <th colspan="4" style="text-align: left;">本学期课程安排</th>
+              <th colspan="8" style="text-align: left;">本学期课程安排</th>
             </tr>
           <tr>
-            <th style="width: 12.5%;"></th>
-            <th style="width: 12.5%;">星期一</th>
-            <th style="width: 12.5%;">星期二</th>
-            <th style="width: 12.5%;">星期三</th>
-            <th style="width: 12.5%;">星期四</th>
-            <th style="width: 12.5%;">星期五</th>
-            <th style="width: 12.5%;">星期六</th>
-            <th style="width: 12.5%;">星期日</th>
+            <th></th>
+            <th>星期一</th>
+            <th>星期二</th>
+            <th>星期三</th>
+            <th>星期四</th>
+            <th>星期五</th>
+            <th>星期六</th>
+            <th>星期日</th>
           </tr>
-
-<!--          <tr v-for="i in 10">-->
-<!--            <td>{{ i | chineseOrdinal }}</td>-->
-<!--            <td v-for="j in 7">-->
-<!--              <input-->
-<!--                type="checkbox"-->
-<!--                v-model="schedule[i-1][j-1]"-->
-<!--                v-if="i >= 1 && j >= 1"-->
-<!--              >-->
-<!--            </td>-->
-<!--          </tr>-->
-
-        </tbody>
+          <tr v-for="i in 10">
+            <td>{{ i | chineseOrdinal }}</td>
+            <td v-for="j in 7">
+              <input
+                type="checkbox"
+                v-model="schedule[i-1][j-1]"
+                v-if="i >= 1 && j >= 1"
+              >
+            </td>
+          </tr>--    </tbody>
       </table>
     </div>
   </div>
