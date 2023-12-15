@@ -196,6 +196,32 @@
               <input type="text" v-model="jobInfo.applianceReason">
             </td>
           </tr>
+
+            <tr>
+              <th colspan="4" style="text-align: left;">本学期课程安排</th>
+            </tr>
+          <tr>
+            <th style="width: 12.5%;"></th>
+            <th style="width: 12.5%;">星期一</th>
+            <th style="width: 12.5%;">星期二</th>
+            <th style="width: 12.5%;">星期三</th>
+            <th style="width: 12.5%;">星期四</th>
+            <th style="width: 12.5%;">星期五</th>
+            <th style="width: 12.5%;">星期六</th>
+            <th style="width: 12.5%;">星期日</th>
+          </tr>
+
+<!--          <tr v-for="i in 10">-->
+<!--            <td>{{ i | chineseOrdinal }}</td>-->
+<!--            <td v-for="j in 7">-->
+<!--              <input-->
+<!--                type="checkbox"-->
+<!--                v-model="schedule[i-1][j-1]"-->
+<!--                v-if="i >= 1 && j >= 1"-->
+<!--              >-->
+<!--            </td>-->
+<!--          </tr>-->
+
         </tbody>
       </table>
     </div>
@@ -208,6 +234,7 @@
 <script>
 import axios from 'axios'
 import { Message } from 'element-ui'
+
 export default {
   name: 'AppleDetailIndex',
   created () {
@@ -215,6 +242,18 @@ export default {
   },
   data () {
     return {
+      schedule: [
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false]
+      ],
       jobInfo: {}
     }
   },
@@ -250,50 +289,58 @@ export default {
     },
     async goToApply () {
       try {
-        const url = 'http://localhost:8866/ptjs/applianceList/apply/submit'
-        const response = await axios.post(url, {
-          applianceListId: '',
-          jobId: this.$route.query.jobId,
-          username: this.$route.query.username,
-          name: this.jobInfo.name,
-          major: this.jobInfo.major,
-          classes: this.jobInfo.classes,
-          bankCardNumber: this.jobInfo.bankCardNumber,
-          phone: this.jobInfo.phone,
-          poorSymbol: this.jobInfo.poorSymbol,
-          classNumber: this.jobInfo.classNumber,
-          average: this.jobInfo.average,
-          special: this.jobInfo.special,
-          applianceReason: this.jobInfo.applianceReason,
-          academicYear: this.jobInfo.academicYear,
-          unit: this.jobInfo.unit,
-          positionTitle: this.jobInfo.positionTitle,
-          positionType: this.jobInfo.positionType,
-          positionLevel: this.jobInfo.positionLevel,
-          startWorkDate: this.jobInfo.startWorkDate,
-          endWorkDate: this.jobInfo.endWorkDate,
-          workingWeek: this.jobInfo.workingWeek,
-          salary: this.jobInfo.salary,
-          teacher: this.jobInfo.teacher,
-          budget: this.jobInfo.budget,
-          numberLastYear: this.jobInfo.numberLastYear,
-          applyMonth: this.jobInfo.applyMonth,
-          demandMonth: this.jobInfo.demandMonth,
-          hireType: this.jobInfo.hireType,
-          workPlace: this.jobInfo.workPlace,
-          positionDuty: this.jobInfo.positionDuty,
-          positionDemand: this.jobInfo.positionDemand,
-          requireNumber: this.jobInfo.requireNumber,
-          applyNumber: this.jobInfo.applyNumber,
-          passNumber: this.jobInfo.passNumber,
-          reviewStatus: this.jobInfo.reviewStatus,
-          reviewDateTime: this.jobInfo.reviewDateTime,
-          reviewReason: this.jobInfo.reviewReason,
-          schoolId: this.jobInfo.schoolId,
-          faculty: this.jobInfo.faculty,
-          grade: this.jobInfo.grade,
-          qq: this.jobInfo.qq
-        })
+        // const url = 'http://localhost:8866/ptjs/applianceList/apply/submit'
+        // const jobInfoUrl = 'http://localhost:8866/ptjs/applianceList/apply/submitJobInfo'
+        // const scheduleUrl = 'http://localhost:8866/ptjs/applianceList/apply/submit'
+
+        // const jobInfoResponse = await axios.post(jobInfoUrl, {
+        //   applianceListId: '',
+        //   jobId: this.$route.query.jobId,
+        //   username: this.$route.query.username,
+        //   name: this.jobInfo.name,
+        //   major: this.jobInfo.major,
+        //   classes: this.jobInfo.classes,
+        //   bankCardNumber: this.jobInfo.bankCardNumber,
+        //   phone: this.jobInfo.phone,
+        //   poorSymbol: this.jobInfo.poorSymbol,
+        //   classNumber: this.jobInfo.classNumber,
+        //   average: this.jobInfo.average,
+        //   special: this.jobInfo.special,
+        //   applianceReason: this.jobInfo.applianceReason,
+        //   academicYear: this.jobInfo.academicYear,
+        //   unit: this.jobInfo.unit,
+        //   positionTitle: this.jobInfo.positionTitle,
+        //   positionType: this.jobInfo.positionType,
+        //   positionLevel: this.jobInfo.positionLevel,
+        //   startWorkDate: this.jobInfo.startWorkDate,
+        //   endWorkDate: this.jobInfo.endWorkDate,
+        //   workingWeek: this.jobInfo.workingWeek,
+        //   salary: this.jobInfo.salary,
+        //   teacher: this.jobInfo.teacher,
+        //   budget: this.jobInfo.budget,
+        //   numberLastYear: this.jobInfo.numberLastYear,
+        //   applyMonth: this.jobInfo.applyMonth,
+        //   demandMonth: this.jobInfo.demandMonth,
+        //   hireType: this.jobInfo.hireType,
+        //   workPlace: this.jobInfo.workPlace,
+        //   positionDuty: this.jobInfo.positionDuty,
+        //   positionDemand: this.jobInfo.positionDemand,
+        //   requireNumber: this.jobInfo.requireNumber,
+        //   applyNumber: this.jobInfo.applyNumber,
+        //   passNumber: this.jobInfo.passNumber,
+        //   reviewStatus: this.jobInfo.reviewStatus,
+        //   reviewDateTime: this.jobInfo.reviewDateTime,
+        //   reviewReason: this.jobInfo.reviewReason,
+        //   schoolId: this.jobInfo.schoolId,
+        //   faculty: this.jobInfo.faculty,
+        //   grade: this.jobInfo.grade,
+        //   qq: this.jobInfo.qq
+        // })
+        // const scheduleResponse = await axios.post(scheduleUrl,{
+        //   name: this.jobInfo.name,
+        //   schedule:this.schedule
+        // })
+
         Message.success('申请成功')
         this.goTotal()
       } catch (error) {
@@ -350,6 +397,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 .goback {
   margin-bottom: 15px;
   margin-left: 30px;

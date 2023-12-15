@@ -11,7 +11,14 @@ Vue.use(ElementUI)
 Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false
-
+Vue.filter('chineseOrdinal', function (number) {
+  const suff = ['', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十']
+  if (number >= 1 && number <= 10) {
+    return '第' + suff[number] + '节'
+  } else {
+    return number
+  }
+})
 new Vue({
   router,
   store,
