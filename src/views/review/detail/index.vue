@@ -55,7 +55,7 @@
           </tr>
           <tr>
             <th style="width: 20%;">审批状态：</th>
-            <td style="width: 30%;">        
+            <td style="width: 30%;">
           <el-select v-model="jobInfo.reviewStatus" placeholder="审核状态">
           <el-option
           v-for="item in this.unitOptions"
@@ -69,11 +69,11 @@
           </tr>
           <tr>
             <th style="width: 20%;">审批人：</th>
-            <input style="width: 80%;" type="text" v-model="jobInfo.reviewPerson"> 
+            <input style="width: 80%;" type="text" v-model="jobInfo.reviewPerson">
           </tr>
           <tr>
             <th style="width: 20%;">审批理由：</th>
-            <input style="width: 80%;" type="text" v-model="jobInfo.reviewReason"> 
+            <input style="width: 80%;" type="text" v-model="jobInfo.reviewReason">
           </tr>
           <tr>
             <th colspan="4" style="text-align: left;">申请岗位信息</th>
@@ -185,9 +185,9 @@
             <td style="width: 30%;">{{ jobInfo.poorSymbol == 0 ? "是":"否"}}</td>
           </tr>
           <tr>
-             <th style="width: 20%;">上学期必修科目数：</th>       
+             <th style="width: 20%;">上学期必修科目数：</th>
              <td style="width: 30%;">{{ jobInfo.classNumber }}</td>
-             <th style="width: 20%;">上学期平均分：</th>       
+             <th style="width: 20%;">上学期平均分：</th>
              <td style="width: 30%;">{{ jobInfo.average }}</td>
           </tr>
           <tr>
@@ -198,6 +198,35 @@
           </tr>
         </tbody>
       </table>
+
+          <table class="table_style">
+            <tbody>
+            <tr>
+              <th colspan="8" style="text-align: left;">本学期课程安排</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th>星期一</th>
+              <th>星期二</th>
+              <th>星期三</th>
+              <th>星期四</th>
+              <th>星期五</th>
+              <th>星期六</th>
+              <th>星期日</th>
+            </tr>
+            <tr v-for="i in 10">
+              <td>{{ i | chineseOrdinal }}</td>
+              <td v-for="j in 7">
+                <input
+                  type="checkbox"
+                  v-model="schedule[i-1][j-1]"
+                  v-if="i >= 1 && j >= 1"
+                >
+              </td>
+            </tr>--    </tbody>
+          </table>
+
+
     </div>
   </div>
     </div>
@@ -221,8 +250,20 @@ export default {
         unitOptions:[
            {value:0,label:"未审核"},
            {value:1,label:"审核通过",},
-           {value:2,label:"审核失败",}    
-        ]
+           {value:2,label:"审核失败",}
+        ],
+      schedule: [
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false],
+        [false, false, false, false, false, false, false]
+      ]
       }
     },
     methods: {
@@ -233,7 +274,7 @@ export default {
     },
     async goCancel () {
       try {
-        const response = await axios.delete('http://localhost:8866/ptjs/applianceList/apply/unSubmit', {
+         await axios.delete('http://localhost:8866/ptjs/applianceList/apply/unSubmit', {
           params: {
             username: this.$route.query.username,
             jobId: this.$route.query.jobId
@@ -247,7 +288,7 @@ export default {
     async goModify () {
       try {
         const url = 'http://localhost:8866/ptjs/applianceList/apply/modify'
-        const response = await axios.post(url, {
+          await axios.post(url, {
           username: this.$route.query.username,
           jobId: this.$route.query.jobId,
           name: this.jobInfo.name,
@@ -368,7 +409,7 @@ export default {
     async Review () {
       try {
         const url = 'http://localhost:8866/ptjs/applianceList/apply/review'
-        const response = await axios.post(url, {
+         await axios.post(url, {
           username: this.$route.query.username,
           jobId: this.$route.query.jobId,
           name: this.jobInfo.name,
@@ -411,7 +452,7 @@ export default {
           grade: this.jobInfo.grade,
           qq: this.jobInfo.qq
         })
-        Message.success("审核完毕"),
+        Message.success("审核完毕")
         this.goReview()
       } catch (error) {
         Message.error("审核失败")
@@ -421,6 +462,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 .goback {
   margin-bottom: 15px;
   margin-left: 30px;
@@ -467,7 +509,7 @@ export default {
   font-weight: bold;
 }
 .select {
-  margin-bottom: 20pxS;
+  margin-bottom: 20px;
 }
 .selectandtable {
   flex: 1;

@@ -291,56 +291,56 @@ export default {
     async goToApply () {
       try {
         // const url = 'http://localhost:8866/ptjs/applianceList/apply/submit'
-        // const jobInfoUrl = 'http://localhost:8866/ptjs/applianceList/apply/submitJobInfo'
-        // const scheduleUrl = 'http://localhost:8866/ptjs/applianceList/apply/submit'
+        const jobInfoUrl = 'http://localhost:8866/ptjs/applianceList/apply/submitJobInfo'
+        const scheduleUrl = 'http://localhost:8866/ptjs/applianceList/apply/submit'
 
-        // const jobInfoResponse = await axios.post(jobInfoUrl, {
-        //   applianceListId: '',
-        //   jobId: this.$route.query.jobId,
-        //   username: this.$route.query.username,
-        //   name: this.jobInfo.name,
-        //   major: this.jobInfo.major,
-        //   classes: this.jobInfo.classes,
-        //   bankCardNumber: this.jobInfo.bankCardNumber,
-        //   phone: this.jobInfo.phone,
-        //   poorSymbol: this.jobInfo.poorSymbol,
-        //   classNumber: this.jobInfo.classNumber,
-        //   average: this.jobInfo.average,
-        //   special: this.jobInfo.special,
-        //   applianceReason: this.jobInfo.applianceReason,
-        //   academicYear: this.jobInfo.academicYear,
-        //   unit: this.jobInfo.unit,
-        //   positionTitle: this.jobInfo.positionTitle,
-        //   positionType: this.jobInfo.positionType,
-        //   positionLevel: this.jobInfo.positionLevel,
-        //   startWorkDate: this.jobInfo.startWorkDate,
-        //   endWorkDate: this.jobInfo.endWorkDate,
-        //   workingWeek: this.jobInfo.workingWeek,
-        //   salary: this.jobInfo.salary,
-        //   teacher: this.jobInfo.teacher,
-        //   budget: this.jobInfo.budget,
-        //   numberLastYear: this.jobInfo.numberLastYear,
-        //   applyMonth: this.jobInfo.applyMonth,
-        //   demandMonth: this.jobInfo.demandMonth,
-        //   hireType: this.jobInfo.hireType,
-        //   workPlace: this.jobInfo.workPlace,
-        //   positionDuty: this.jobInfo.positionDuty,
-        //   positionDemand: this.jobInfo.positionDemand,
-        //   requireNumber: this.jobInfo.requireNumber,
-        //   applyNumber: this.jobInfo.applyNumber,
-        //   passNumber: this.jobInfo.passNumber,
-        //   reviewStatus: this.jobInfo.reviewStatus,
-        //   reviewDateTime: this.jobInfo.reviewDateTime,
-        //   reviewReason: this.jobInfo.reviewReason,
-        //   schoolId: this.jobInfo.schoolId,
-        //   faculty: this.jobInfo.faculty,
-        //   grade: this.jobInfo.grade,
-        //   qq: this.jobInfo.qq
-        // })
-        // const scheduleResponse = await axios.post(scheduleUrl,{
-        //   name: this.jobInfo.name,
-        //   schedule:this.schedule
-        // })
+        await axios.post(jobInfoUrl, {
+          applianceListId: '',
+          jobId: this.$route.query.jobId,
+          username: this.$route.query.username,
+          name: this.jobInfo.name,
+          major: this.jobInfo.major,
+          classes: this.jobInfo.classes,
+          bankCardNumber: this.jobInfo.bankCardNumber,
+          phone: this.jobInfo.phone,
+          poorSymbol: this.jobInfo.poorSymbol,
+          classNumber: this.jobInfo.classNumber,
+          average: this.jobInfo.average,
+          special: this.jobInfo.special,
+          applianceReason: this.jobInfo.applianceReason,
+          academicYear: this.jobInfo.academicYear,
+          unit: this.jobInfo.unit,
+          positionTitle: this.jobInfo.positionTitle,
+          positionType: this.jobInfo.positionType,
+          positionLevel: this.jobInfo.positionLevel,
+          startWorkDate: this.jobInfo.startWorkDate,
+          endWorkDate: this.jobInfo.endWorkDate,
+          workingWeek: this.jobInfo.workingWeek,
+          salary: this.jobInfo.salary,
+          teacher: this.jobInfo.teacher,
+          budget: this.jobInfo.budget,
+          numberLastYear: this.jobInfo.numberLastYear,
+          applyMonth: this.jobInfo.applyMonth,
+          demandMonth: this.jobInfo.demandMonth,
+          hireType: this.jobInfo.hireType,
+          workPlace: this.jobInfo.workPlace,
+          positionDuty: this.jobInfo.positionDuty,
+          positionDemand: this.jobInfo.positionDemand,
+          requireNumber: this.jobInfo.requireNumber,
+          applyNumber: this.jobInfo.applyNumber,
+          passNumber: this.jobInfo.passNumber,
+          reviewStatus: this.jobInfo.reviewStatus,
+          reviewDateTime: this.jobInfo.reviewDateTime,
+          reviewReason: this.jobInfo.reviewReason,
+          schoolId: this.jobInfo.schoolId,
+          faculty: this.jobInfo.faculty,
+          grade: this.jobInfo.grade,
+          qq: this.jobInfo.qq
+        })
+        await axios.post(scheduleUrl,{
+          name: this.jobInfo.name,
+          schedule:this.schedule
+        })
 
         Message.success('申请成功')
         this.goTotal()
@@ -448,7 +448,7 @@ export default {
   font-weight: bold;
 }
 .select {
-  margin-bottom: 20pxS;
+  margin-bottom: 20px;
 }
 .selectandtable {
   flex: 1;
